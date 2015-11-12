@@ -1,152 +1,104 @@
+// global array list
+
+ArrayList<Data> DataInfo =  new ArrayList<Data>();
+color [] colarray = { color(#FFFFFF), color(220,200,85),
+ color(185,65,200), color(0,145,35), color(245,35,200) };
+//declaring variable to load img
+ PImage img;
+
 void setup()
 {
-    size(500,500);
-    background(0);
-    smooth();
-    stroke(255);
-    
-    border = width *0.1f;
-    windowRange = width - border;
-    y1 = height-border;
-    MidScreen = height/2;
-    HigherScreen = border*2;
-    LowerScreen = width - (border *2);
-    mapx = windowRange/Countries.length;
-    
-    line(border,height-border,width-border,height-border);
-    
-    
-      // calling loadstring function
-     loadString();
-     
-     
+  
+  size(500,500);
+  background(255);
+  smooth();
+  // load image
+  
+  loadData();
+  
+  
 }
 
-  float x1,x2,y1,y2;
-  float border;
-  float windowRange;
-  float MidScreen ;
-  float LowerScreen;
-  String[] Countries = {"Can","Ita","Br","Indi","Fran","Uk","Ger","Jap","Chi","Usa"};
-  String[] CountriesV = {"1.6","1.8","1.9","2.3","2.5","2.9","3.4","4.2","11.2","18.1"};
-  float mapx;
-  float HigherScreen ;
-// This method is to load the string
-void loadString()
+
+
+// load data
+void loadData()
 {
-  
-   float maxValue;
-   float MinValue;
-   // this will load the csv file
-  String[]EconomyRanking = loadStrings("Economies.csv");  
-   
-  // this create an array list
-  ArrayList<Float> ecoRanking = new ArrayList<Float>();
-  
-  //pass data to an array list and convert from string to float
-  
-  for(String s:EconomyRanking)
-  {
-    float f = Float.parseFloat(s);
-    ecoRanking.add(f);
-    
-  } 
-  
-  for(int i = 0 ; i < 10; i ++)
-  {
-    println("this is ECORRANKING " + ecoRanking.get(i));
-  }
-  
-      // calling maxV function
-      maxValue = maxV(ecoRanking);
-      println("this is maXv " +maxValue);
-     
-      // Calling min value function
-      
-      MinValue = MinV(ecoRanking);
-      println("this is minV" +MinValue);
-     
-      //calling drawgraph functions
-      drawgraph(ecoRanking,maxValue,MinValue);
-      
-      
-      
-      
+    // this line of code gonna load the data called gdp
+      String[] lines = loadStrings("Economies.csv");
+      for(int i = 0; i < lines.length; i ++)
+      {
+          // populate classes
+          Data dataobject = new Data(lines[i]);
+         //populate array lsit
+          DataInfo.add(dataobject); 
+      }
 }
 
 
 
-void drawgraph(ArrayList<Float>eRank,float minV, float maxV)
-{
+// implement the rect method
+
+void drawrect()
+{    
   
-    for(int i = 0; i <eRank.size(); i++)
-    {
-        x1 = map( i,0,eRank.size()-1,windowRange,border);
-        y2 = map(eRank.get(i),minV,maxV,HigherScreen,LowerScreen );      
         
-        stroke(#FF0000);
-        line(x1,y1,x1,y2);
-        text(Countries[i],x1,470);
-        text(CountriesV[i],x1,border);
         
-       println("this is eRANK" + eRank.get(i));
-    }
-    
-    
+          float barWidth = (width * 0.7f) / (float)DataInfo.size();
+          float border = width *0.1f;
+          float windowsRange = width - (width* 0.12);
+          float max = Float.MIN_VALUE;
+        
+          
+          // find the max value
+          for (Data Data1 : DataInfo)
+          {
+            if (Data1.economy > max)
+            {
+              max = Data1.economy;
+            }
+          }
+          
+          
+          // finds the min value
+          
+           float min = Float.MAX_VALUE;
+        
+          for (Data Data1 : DataInfo)
+          {
+            if (Data1.economy < min)
+            {
+              min = Data1.economy;
+            }
+          }
+          for (int i =0; i < DataInfo.size(); i++)
+          {
+                fill(#0C027C);
+                float x =map(i,0,DataInfo.size(),20,480);
+                float y = map(DataInfo.get(i).economy, min, max, border, height/2);
+                rect( x, windowsRange, barWidth, -y);
+                
+                 fill(#4B4B50);
+                 stroke(#4B4B50);
+                float textmap  = map(DataInfo.get(i).economy,min,max,350,150);
+                text(DataInfo.get(i).country.substring(0,3),x,480);
+                text(DataInfo.get(i).economy,x,textmap);
+          }
+        
+          
+  
       
-      
-   
+  
 }
 
 
-// this is a function to find the max value of the data set.
-float maxV(ArrayList<Float>Max)
-{  
-    float Mv = Max.get(0);
-    
-    
-    for(int i = 0; i < Max.size(); i++)
-    {
-        if(Max.get(i) > Mv)
-        {
-            Mv = Max.get(i);
-        }
-      
-    }
-        
-        
-       return Mv;
 
-}// end MaxV
-
-
-
-// this is a function to find the mmin value of the data set.
-float MinV(ArrayList<Float>Min)
-{  
-    float Minv = Min.get(0);
-    
-    
-    for(int i = 0; i < Min.size(); i++)
-    {
-        if(Min.get(i) < Minv)
-        {
-            Minv = Min.get(i);
-        }
-      
-    }
-        
-        
-       return Minv;
-
-}// end MaxV
 
 
 void draw()
 {
-    println(mouseX);   
+    background(255);
+     drawrect();
+  
+    
 }
-
-
-
-
