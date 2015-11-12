@@ -4,7 +4,7 @@ class Data
      int ranking;
      String country;
      float  economy;
-     int    year;
+     String year;
      color colour;
      
      // constructor
@@ -14,7 +14,7 @@ class Data
         ranking = parseInt(part[0]);
         country = part[1];
         economy = Float.parseFloat(part[2]);
-        year = parseInt(part[3]);
+        year = part[3];
         colour = color(random(0, 255), random(0, 255), random(0, 255));
      }
     
