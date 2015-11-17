@@ -32,7 +32,7 @@ SimplePointMarker braMarker;
 SimplePointMarker rusMarker;
 SimplePointMarker itaMarker;
 SimplePointMarker indMarker;
-
+SimplePointMarker AoceanMarker;
 
 // calling objetc movie
 Movie myMovie;
@@ -78,7 +78,7 @@ void setup()
 
   map = new UnfoldingMap(this, new Google.GoogleMapProvider());
   MapUtils.createDefaultEventDispatcher(this, map);
-
+  
   // search for the location
   Location usaLocation = new Location(37, -95.71);
   usaMarker = new SimplePointMarker(usaLocation);
@@ -108,11 +108,17 @@ void setup()
 
   Location itaLocation = new Location(41.8, 12.5);
   itaMarker =new SimplePointMarker(itaLocation);
-
+  
+   
 
   Location indLocation = new Location(20.5, 78.9);
   indMarker= new SimplePointMarker(indLocation);
+  
+  
+  Location AoceanLocation = new Location(32.3,-80);
+  AoceanMarker = new SimplePointMarker(AoceanLocation);
 }
+
 
 
 
@@ -283,7 +289,11 @@ void WorldMap()
   ScreenPosition rusPos = rusMarker.getScreenPosition(map);
   ScreenPosition itaPos = itaMarker.getScreenPosition(map);
   ScreenPosition indPos = indMarker.getScreenPosition(map);
-  fill(#333366);
+  ScreenPosition AoceanPos = AoceanMarker.getScreenPosition(map);
+
+  fill(#FC0303);
+  stroke(255);
+  /// draw circles
   ellipse(usaPos.x, usaPos.y, 10, 10);
   ellipse(chnPos.x, chnPos.y, 10, 10);
   ellipse(japPos.x, japPos.y, 10, 10);
@@ -294,21 +304,35 @@ void WorldMap()
   ellipse(rusPos.x, rusPos.y, 10, 10);
   ellipse(itaPos.x, itaPos.y, 10, 10);
   ellipse(indPos.x, indPos.y, 10, 10);
-}
+
+  for (int i = 0; i < flags.length; i ++)
+  {
+    flags[i] = loadImage(flagNames[i]);
+    
+    
+  }
+  // if mouse over than load the flags and informatiom about the country 
+  if (mouseX > 105  && mouseX < 121 && mouseY > 170 && mouseY< 201)
+  {
+      image(flags[0],AoceanPos.x,AoceanPos.y,50,50);
+      text("USA",AoceanPos.x+60,AoceanPos.y+10);
+    }
+    //draw text
+  }
 
 
 
-void loadVideo()
-{
-  myMovie.play();
-  image(myMovie, 0, 0, 500, 500);
-  myMovie.read();
-}
+  void loadVideo()
+  {
+    myMovie.play();
+    image(myMovie, 0, 0, 500, 500);
+    myMovie.read();
+  }
 
 
 void draw()
 {
-  background(bg);
+  
 
 
   switch(mode)
@@ -328,13 +352,14 @@ void draw()
     {
 
       DataInfo.clear(); 
+      myMovie.stop();
       loadData();
       break;
     }
 
   case 2:
     {
-
+      myMovie.stop();
       WorldMap();
 
       break;
@@ -343,7 +368,7 @@ void draw()
   case 3:
     {
       // movie
-
+      DataInfo.clear(); 
       loadVideo();
       break;
     }
