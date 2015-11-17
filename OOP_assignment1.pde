@@ -33,6 +33,9 @@ SimplePointMarker rusMarker;
 SimplePointMarker itaMarker;
 SimplePointMarker indMarker;
 
+
+// calling objetc movie
+Movie myMovie;
 // global array list
 int mode = 5;
 PFont text;
@@ -49,27 +52,30 @@ PImage img;
 //declaring variable to load img
 PImage[] flags = new PImage[10];
 String[] flagNames = {
-  "usa.png",  "chi.png", "jap.jpg", "ger.png","uk.jpg", "fra.png", "bra.png","rus.jpg" , "ita.png","ind.png"
+  "usa.png", "chi.png", "jap.jpg", "ger.png", "uk.jpg", "fra.png", "bra.png", "rus.jpg", "ita.png", "ind.png"
 };
 
 void setup()
 {
-  
+
   size(500, 500, P3D);
   smooth();
-  bg = loadImage("bg_night.png");
-  
-   rectHighlight = color(51);
-  
-  
+  myMovie = new Movie(this, "World.mp4");
   // load image
-  
+  bg = loadImage("bg_night.png");
+
+
+
+
+
+
+
   text = createFont("Arial-BoldItalicMT-20.vlw", 20);
 
   textFont(text);
-  
+
   // INITIALIZING MAP OBJECTS
-  
+
   map = new UnfoldingMap(this, new Google.GoogleMapProvider());
   MapUtils.createDefaultEventDispatcher(this, map);
 
@@ -106,7 +112,6 @@ void setup()
 
   Location indLocation = new Location(20.5, 78.9);
   indMarker= new SimplePointMarker(indLocation);
-
 }
 
 
@@ -114,43 +119,39 @@ void setup()
 // load data
 void loadData()
 {
-           int changeYear= 0;
-           String[] lines = {"Economies.csv" };
-           
-           if(mode == 0)
-           {
-                lines = loadStrings("Economies.csv");
+  int changeYear= 0;
+  String[] lines = {
+    "Economies.csv"
+  };
 
-           }
-           if(mode == 1)
-           {  
-                 lines =  loadStrings("Economies2017.csv");
-                 
-           }
-           
-          // this line of code gonna load the data called gdp
-        
-        
-          float rectwidth = width * 0.08f;
-          float recty = width * 0.05f;
-          float border = width * 0.1f;
-            
-            
-            
-          for (int i = 0; i < lines.length; i ++)
-          {
-            // populate classes
-            Data dataobject = new Data(lines[i]);
-            //populate array lsit
-            DataInfo.add(dataobject);
-          }
-  
-   
-     // if mouse presse statement
-    
-   
-  
-  
+  if (mode == 0)
+  {
+    lines = loadStrings("Economies.csv");
+  }
+  if (mode == 1)
+  {  
+    lines =  loadStrings("Economies2017.csv");
+  }
+
+  // this line of code gonna load the data called gdp
+
+
+  float rectwidth = width * 0.08f;
+  float recty = width * 0.05f;
+  float border = width * 0.1f;
+
+
+
+  for (int i = 0; i < lines.length; i ++)
+  {
+    // populate classes
+    Data dataobject = new Data(lines[i]);
+    //populate array lsit
+    DataInfo.add(dataobject);
+  }
+
+
+  // if mouse presse statement
 }
 
 
@@ -162,7 +163,7 @@ void drawrect()
 {    
 
 
-   
+
   float barWidth = (width * 0.7f) / (float)DataInfo.size();
   float border = width *0.1f;
   float windowsRange = width - (width* 0.12);
@@ -203,7 +204,7 @@ void drawrect()
 
     float rectwidth = width * 0.08f;
     float recty = width * 0.05f;
-    
+
     // draw the rectagle
     rect(x, border, barWidth, recty);
 
@@ -211,22 +212,32 @@ void drawrect()
     stroke(#4B4B50);
     float textmap  = map(DataInfo.get(i).economy, min, max, 380, 160);
     textAlign(LEFT);
+
+    // change color of text
+    if (mode == 2)
+    {
+      fill(0);
+      stroke(0);
+    }
+
+
     text(DataInfo.get(i).country, x, windowsRange + recty);
+
 
     text(nf(DataInfo.get(i).economy, 1, 1), x, textmap);
 
     flags[i] = loadImage(flagNames[i]);
 
 
-      
-    // code to do the roll over and load flag
 
+    // code to do the roll over and load flag
+    /*
     if (mouseX > x && mouseX < x +barWidth && mouseY > height/1.5 && mouseY < windowsRange)
-    {
-      imageMode(CENTER);
-      image(flags[i], width/2, height/2, width*0.2, height*0.2);
-      
-    }
+     {
+     imageMode(CENTER);
+     image(flags[i], width/2, height/2, width*0.2, height*0.2);
+     
+     }*/
 
 
     // code to draw 10 rect 
@@ -246,27 +257,22 @@ void drawrect()
     // code to do the mouse over
     if (mouseX > x2 && mouseX < x2 +rectwidth && mouseY > border && mouseY < border+recty)
     {
-        
-        img = loadImage("cool.png");
-        image(img, x2-10, border-10, barWidth, 50);
-       stroke(rectHighlight);
-         fill(rectHighlight);
-      
+
+      img = loadImage("cool.png");
+      image(img, x2-10, border-10, barWidth, 50);
+      stroke(rectHighlight);
+      fill(rectHighlight);
+
       println("hey tell me somethi right not  " +mouseY);
     }
-      
-     
-    
   }
-  
- 
 }
 
 // method to implement the map 
 
 void WorldMap()
 {
-   map.draw();
+  map.draw();
   ScreenPosition usaPos = usaMarker.getScreenPosition(map);
   ScreenPosition chnPos = chnMarker.getScreenPosition(map);
   ScreenPosition japPos = japMarker.getScreenPosition(map);
@@ -288,59 +294,63 @@ void WorldMap()
   ellipse(rusPos.x, rusPos.y, 10, 10);
   ellipse(itaPos.x, itaPos.y, 10, 10);
   ellipse(indPos.x, indPos.y, 10, 10);
-  
 }
 
 
 
+void loadVideo()
+{
+  myMovie.play();
+  image(myMovie, 0, 0, 500, 500);
+  myMovie.read();
+}
 
 
 void draw()
 {
   background(bg);
-  
-  
+
+
   switch(mode)
   {
-      case 0:
-      {
-        
-              DataInfo.clear();  
-              loadData();
-               
-                      
-          
-          break;
-      }// case 0
-      
-      case 1:
-      {
-        
-           DataInfo.clear(); 
-          loadData();
-        
-        
-        
-            
-            
-        
-        
-        break;
-      }
-      
-      case 2:
-      {
-        
-         WorldMap();
-         
-         break;
-      }
-      
-      
+  case 0:
+    {
+
+      DataInfo.clear();  
+      loadData();
+
+
+
+      break;
+    }// case 0
+
+  case 1:
+    {
+
+      DataInfo.clear(); 
+      loadData();
+      break;
+    }
+
+  case 2:
+    {
+
+      WorldMap();
+
+      break;
+    }
+
+  case 3:
+    {
+      // movie
+
+      loadVideo();
+      break;
+    }
   }// end switch
-   drawrect();
-    
+  drawrect();
 }
+
 
 
 void keyPressed()
@@ -351,3 +361,4 @@ void keyPressed()
   }
   println(mode);
 }
+
