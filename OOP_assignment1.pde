@@ -23,7 +23,7 @@ UnfoldingMap map;
 // Create point markers for locations
 SimplePointMarker usaMarker;
 SimplePointMarker chnMarker;
-
+//  Simplepoit marker class with diferent objects for each country
 SimplePointMarker japMarker;
 SimplePointMarker gerMarker;
 SimplePointMarker ukMarker;
@@ -33,6 +33,7 @@ SimplePointMarker rusMarker;
 SimplePointMarker itaMarker;
 SimplePointMarker indMarker;
 SimplePointMarker AoceanMarker;
+SimplePointMarker SouchnMarker;
 
 // calling objetc movie
 Movie myMovie;
@@ -42,6 +43,7 @@ PFont text;
 
 PShape  rect;
 ArrayList<Data> DataInfo =  new ArrayList<Data>();
+
 color rectHighlight;
 color [] colarray = { 
   color(#FFFFFF), color(220, 200, 85), 
@@ -77,6 +79,7 @@ void setup()
   // INITIALIZING MAP OBJECTS
 
   map = new UnfoldingMap(this, new Google.GoogleMapProvider());
+  map.zoomToLevel(2);
   MapUtils.createDefaultEventDispatcher(this, map);
   
   // search for the location
@@ -117,6 +120,10 @@ void setup()
   
   Location AoceanLocation = new Location(32.3,-80);
   AoceanMarker = new SimplePointMarker(AoceanLocation);
+  
+  Location SouchnLocation = new Location(30.39,124.7);
+  SouchnMarker = new SimplePointMarker(SouchnLocation);
+  
 }
 
 
@@ -174,10 +181,12 @@ void drawrect()
   float border = width *0.1f;
   float windowsRange = width - (width* 0.12);
   float heightRange = height - (height * 0.12);
+ 
+ // assign the a value of the data to a variable called max
   float max = Float.MIN_VALUE;
 
-
-  // find the max value
+  
+  // compare all the other values from the data and find the max value
   for (Data Data1 : DataInfo)
   {
     if (Data1.economy > max)
@@ -187,10 +196,11 @@ void drawrect()
   }
 
 
-  // finds the min value
+  // assign the a value of the data to a variable finds the min value
 
   float min = Float.MAX_VALUE;
-
+  
+ // compare and find the min value 
   for (Data Data1 : DataInfo)
   {
     if (Data1.economy < min)
@@ -201,6 +211,10 @@ void drawrect()
   for (int i =0; i < DataInfo.size (); i++)
   {
     fill(#0C027C);
+                /*//"i" is the value "0" is the lowest value, "dataInfo" max value then 
+                then when i is the min value its gonna find a position on the screen for that value 
+                which will be border border = 50  and when i is datainfo it will find a position on 
+                on the screen which will be windowsRange. WindowsRange is > 400 ps this is X axe*/
     float x = map(i, 0, DataInfo.size()-1, border, windowsRange);
     float y = map(DataInfo.get(i).economy, min, max, border, height/2);
 
@@ -278,6 +292,7 @@ void drawrect()
 
 void WorldMap()
 {
+  
   map.draw();
   ScreenPosition usaPos = usaMarker.getScreenPosition(map);
   ScreenPosition chnPos = chnMarker.getScreenPosition(map);
@@ -290,7 +305,8 @@ void WorldMap()
   ScreenPosition itaPos = itaMarker.getScreenPosition(map);
   ScreenPosition indPos = indMarker.getScreenPosition(map);
   ScreenPosition AoceanPos = AoceanMarker.getScreenPosition(map);
-
+  ScreenPosition SouchnPos = SouchnMarker.getScreenPosition(map);
+  
   fill(#FC0303);
   stroke(255);
   /// draw circles
@@ -307,19 +323,94 @@ void WorldMap()
 
   for (int i = 0; i < flags.length; i ++)
   {
+      
     flags[i] = loadImage(flagNames[i]);
-    
-    
+   
   }
   // if mouse over than load the flags and informatiom about the country 
-  if (mouseX > 105  && mouseX < 121 && mouseY > 170 && mouseY< 201)
+ /* if (mouseX > 105  && mouseX < 121 && mouseY > 170 && mouseY< 201)
   {
       image(flags[0],AoceanPos.x,AoceanPos.y,50,50);
       text("USA",AoceanPos.x+60,AoceanPos.y+10);
     }
+    */
+    
+    
+    
+    //code to select and load an image 
+    if(mouseX > usaPos.x-40 && mouseX < usaPos.x+40 && mouseY > usaPos.y-40 && mouseY < usaPos.y +30 )
+    {
+      String Money = "Trillion";
+      float xP  = width * 0.12;
+      float xY = width * 0.02;
+      
+      
+        textSize(15);
+        image(flags[0],AoceanPos.x,AoceanPos.y,50,50);
+        text("1st\n18.1Trillion",AoceanPos.x+xP,AoceanPos.y+xY);
+      
+    }
+    
+    
+    // select for china
+    if(mouseX > chnPos.x-40 && mouseX < chnPos.x+40 && mouseY > chnPos.y-40 && mouseY < chnPos.y +30 )
+    {
+      String Money = "Trillion";
+      float xP  = width * 0.12;
+      float xY = width * 0.02;
+      float imageSize = width *0.1;
+      
+        textSize(15);
+        image(flags[1],SouchnPos.x,SouchnPos.y,50,50);
+        text("2nd\n18.1Trillion",SouchnPos.x+xP,SouchnPos.y+xY);
+    }
+        
+        
+        // select for japan 
+    if(mouseX > japPos.x-40 && mouseX < japPos.x+40 && mouseY > japPos.y-40 && mouseY < japPos.y +30 )
+    {
+      String Money = "Trillion";
+      float xP  = width * 0.12;
+      float xY = width * 0.02;
+      
+      
+        textSize(15);
+        image(flags[0],SouchnPos.x+xP,SouchnPos.y+xY);
+        text("3rd",SouchnPos.x+xP,SouchnPos.y+xY);
+      
+    }
+    
+    
+    // select for germany
+    if(mouseX > gerPos.x-40 && mouseX < gerPos.x+40 && mouseY > gerPos.y-40 && mouseY < gerPos.y +30 )
+    {
+      String Money = "Trillion";
+      float xP  = width * 0.12;
+      float xY = width * 0.02;
+      
+      
+        textSize(15);
+        image(flags[0],AoceanPos.x+xP,AoceanPos.y+xY,imageSize,imageSize );
+        text("4th",AoceanPos.x+xP,AoceanPos.y+xY);
+      
+    }
+    
+    // select uk
+    if(mouseX > ukPos.x-40 && mouseX < ukPos.x+40 && mouseY > ukPos.y-40 && mouseY < ukPos.y +30 )
+    {
+      String Money = "Trillion";
+      float xP  = width * 0.12;
+      float xY = width * 0.02;
+      
+      
+        textSize(15);
+        image(flags[0],AoceanPos.x+xP,AoceanPos.y+xY),imageSize ,imageSize ;
+        text("5th",AoceanPos.x+xP,AoceanPos.y+xY);
+      
+    }
+ 
     //draw text
   }
-
 
 
   void loadVideo()
@@ -333,7 +424,7 @@ void WorldMap()
 void draw()
 {
   
-
+    background(bg);
 
   switch(mode)
   {
@@ -359,6 +450,7 @@ void draw()
 
   case 2:
     {
+      
       myMovie.stop();
       WorldMap();
 
@@ -373,6 +465,7 @@ void draw()
       break;
     }
   }// end switch
+  
   drawrect();
 }
 
