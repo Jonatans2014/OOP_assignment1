@@ -45,14 +45,14 @@ PShape  rect;
 ArrayList<Data> DataInfo =  new ArrayList<Data>();
 
 color rectHighlight;
-color [] colarray = { 
-  color(#FFFFFF), color(220, 200, 85), 
-  color(185, 65, 200), color(0, 145, 35), color(245, 35, 200)
-};
+
+
 PImage bg;
-PImage img;
+
 //declaring variable to load img
+
 PImage[] flags = new PImage[10];
+
 String[] flagNames = {
   "usa.png", "chi.png", "jap.jpg", "ger.png", "uk.jpg", "fra.png", "bra.png", "rus.jpg", "ita.png", "ind.png"
 };
@@ -81,7 +81,7 @@ void setup()
   map = new UnfoldingMap(this, new Google.GoogleMapProvider());
   map.zoomToLevel(2);
   MapUtils.createDefaultEventDispatcher(this, map);
-  
+
   // search for the location
   Location usaLocation = new Location(37, -95.71);
   usaMarker = new SimplePointMarker(usaLocation);
@@ -111,19 +111,18 @@ void setup()
 
   Location itaLocation = new Location(41.8, 12.5);
   itaMarker =new SimplePointMarker(itaLocation);
-  
-   
+
+
 
   Location indLocation = new Location(20.5, 78.9);
   indMarker= new SimplePointMarker(indLocation);
-  
-  
-  Location AoceanLocation = new Location(32.3,-80);
+
+
+  Location AoceanLocation = new Location(32.3, -80);
   AoceanMarker = new SimplePointMarker(AoceanLocation);
-  
-  Location SouchnLocation = new Location(30.39,124.7);
+
+  Location SouchnLocation = new Location(30.39, 124.7);
   SouchnMarker = new SimplePointMarker(SouchnLocation);
-  
 }
 
 
@@ -181,11 +180,11 @@ void drawrect()
   float border = width *0.1f;
   float windowsRange = width - (width* 0.12);
   float heightRange = height - (height * 0.12);
- 
- // assign the a value of the data to a variable called max
+
+  // assign the a value of the data to a variable called max
   float max = Float.MIN_VALUE;
 
-  
+
   // compare all the other values from the data and find the max value
   for (Data Data1 : DataInfo)
   {
@@ -199,8 +198,8 @@ void drawrect()
   // assign the a value of the data to a variable finds the min value
 
   float min = Float.MAX_VALUE;
-  
- // compare and find the min value 
+
+  // compare and find the min value 
   for (Data Data1 : DataInfo)
   {
     if (Data1.economy < min)
@@ -211,10 +210,10 @@ void drawrect()
   for (int i =0; i < DataInfo.size (); i++)
   {
     fill(#0C027C);
-                /*//"i" is the value "0" is the lowest value, "dataInfo" max value then 
-                then when i is the min value its gonna find a position on the screen for that value 
-                which will be border border = 50  and when i is datainfo it will find a position on 
-                on the screen which will be windowsRange. WindowsRange is > 400 ps this is X axe*/
+    /*//"i" is the value "0" is the lowest value, "dataInfo" max value then 
+     then when i is the min value its gonna find a position on the screen for that value 
+     which will be border border = 50  and when i is datainfo it will find a position on 
+     on the screen which will be windowsRange. WindowsRange is > 400 ps this is X axe*/
     float x = map(i, 0, DataInfo.size()-1, border, windowsRange);
     float y = map(DataInfo.get(i).economy, min, max, border, height/2);
 
@@ -278,8 +277,8 @@ void drawrect()
     if (mouseX > x2 && mouseX < x2 +rectwidth && mouseY > border && mouseY < border+recty)
     {
 
-      img = loadImage("cool.png");
-      image(img, x2-10, border-10, barWidth, 50);
+
+
       stroke(rectHighlight);
       fill(rectHighlight);
 
@@ -292,7 +291,7 @@ void drawrect()
 
 void WorldMap()
 {
-  
+
   map.draw();
   ScreenPosition usaPos = usaMarker.getScreenPosition(map);
   ScreenPosition chnPos = chnMarker.getScreenPosition(map);
@@ -306,125 +305,174 @@ void WorldMap()
   ScreenPosition indPos = indMarker.getScreenPosition(map);
   ScreenPosition AoceanPos = AoceanMarker.getScreenPosition(map);
   ScreenPosition SouchnPos = SouchnMarker.getScreenPosition(map);
-  
+
+
+  String[]markNames = {
+  "main.png", "chna.png", "jap1.png",
+  "germ.png","fran.png","uk1.png","bras.png","rus1.png","ita1.png","indi.png"};
+  PImage[] markerIcon = new PImage[10];
+  for(int i = 0; i < markNames.length; i ++)
+  {
+      markerIcon[i] =loadImage(markNames[i]);
+      
+  }
   fill(#FC0303);
   stroke(255);
   /// draw circles
-  ellipse(usaPos.x, usaPos.y, 10, 10);
-  ellipse(chnPos.x, chnPos.y, 10, 10);
+  image(markerIcon[0], usaPos.x,usaPos.y,20,20);
+  ellipse(usaPos.x,usaPos.y,10,10);
+  ellipse(chnPos.x,chnPos.y,10,10);
   ellipse(japPos.x, japPos.y, 10, 10);
-  ellipse(ukPos.x, ukPos.y, 10, 10);
+  
+  ellipse(ukPos.x,  ukPos.y, 10, 10);
   ellipse(gerPos.x, gerPos.y, 10, 10);
   ellipse(fraPos.x, fraPos.y, 10, 10);
-  ellipse(braPos.x, braPos.y, 10, 10);
+ ellipse(braPos.x, braPos.y,10,10);
   ellipse(rusPos.x, rusPos.y, 10, 10);
   ellipse(itaPos.x, itaPos.y, 10, 10);
   ellipse(indPos.x, indPos.y, 10, 10);
 
   for (int i = 0; i < flags.length; i ++)
   {
-      
+
     flags[i] = loadImage(flagNames[i]);
-   
   }
   // if mouse over than load the flags and informatiom about the country 
- /* if (mouseX > 105  && mouseX < 121 && mouseY > 170 && mouseY< 201)
+  /* if (mouseX > 105  && mouseX < 121 && mouseY > 170 && mouseY< 201)
+   {
+   image(flags[0],AoceanPos.x,AoceanPos.y,50,50);
+   text("USA",AoceanPos.x+60,AoceanPos.y+10);
+   }
+   */
+
+  String Money = "Trillion";
+  float xP  = width * 0.12;
+  float xY = width * 0.02;
+  float imageSize = width *0.1;
+
+
+
+  //code to select and load an image 
+  if (mouseX > usaPos.x-40 && mouseX < usaPos.x+40 && mouseY > usaPos.y-40 && mouseY < usaPos.y +30 )
   {
-      image(flags[0],AoceanPos.x,AoceanPos.y,50,50);
-      text("USA",AoceanPos.x+60,AoceanPos.y+10);
-    }
-    */
-    
-    
-    
-    //code to select and load an image 
-    if(mouseX > usaPos.x-40 && mouseX < usaPos.x+40 && mouseY > usaPos.y-40 && mouseY < usaPos.y +30 )
-    {
-      String Money = "Trillion";
-      float xP  = width * 0.12;
-      float xY = width * 0.02;
-      
-      
-        textSize(15);
-        image(flags[0],AoceanPos.x,AoceanPos.y,50,50);
-        text("1st\n18.1Trillion",AoceanPos.x+xP,AoceanPos.y+xY);
-      
-    }
-    
-    
-    // select for china
-    if(mouseX > chnPos.x-40 && mouseX < chnPos.x+40 && mouseY > chnPos.y-40 && mouseY < chnPos.y +30 )
-    {
-      String Money = "Trillion";
-      float xP  = width * 0.12;
-      float xY = width * 0.02;
-      float imageSize = width *0.1;
-      
-        textSize(15);
-        image(flags[1],SouchnPos.x,SouchnPos.y,50,50);
-        text("2nd\n18.1Trillion",SouchnPos.x+xP,SouchnPos.y+xY);
-    }
-        
-        
-        // select for japan 
-    if(mouseX > japPos.x-40 && mouseX < japPos.x+40 && mouseY > japPos.y-40 && mouseY < japPos.y +30 )
-    {
-      String Money = "Trillion";
-      float xP  = width * 0.12;
-      float xY = width * 0.02;
-      
-      
-        textSize(15);
-        image(flags[0],SouchnPos.x+xP,SouchnPos.y+xY);
-        text("3rd",SouchnPos.x+xP,SouchnPos.y+xY);
-      
-    }
-    
-    
-    // select for germany
-    if(mouseX > gerPos.x-40 && mouseX < gerPos.x+40 && mouseY > gerPos.y-40 && mouseY < gerPos.y +30 )
-    {
-      String Money = "Trillion";
-      float xP  = width * 0.12;
-      float xY = width * 0.02;
-      
-      
-        textSize(15);
-        image(flags[0],AoceanPos.x+xP,AoceanPos.y+xY,imageSize,imageSize );
-        text("4th",AoceanPos.x+xP,AoceanPos.y+xY);
-      
-    }
-    
-    // select uk
-    if(mouseX > ukPos.x-40 && mouseX < ukPos.x+40 && mouseY > ukPos.y-40 && mouseY < ukPos.y +30 )
-    {
-      String Money = "Trillion";
-      float xP  = width * 0.12;
-      float xY = width * 0.02;
-      
-      
-        textSize(15);
-        image(flags[0],AoceanPos.x+xP,AoceanPos.y+xY),imageSize ,imageSize ;
-        text("5th",AoceanPos.x+xP,AoceanPos.y+xY);
-      
-    }
- 
-    //draw text
+
+
+
+    textSize(15);
+    image(flags[0], AoceanPos.x, AoceanPos.y, imageSize, imageSize);
+    text("1st\n18.1Trillion", AoceanPos.x+xP, AoceanPos.y+xY);
   }
 
 
-  void loadVideo()
+  // select for china
+  if (mouseX > chnPos.x-40 && mouseX < chnPos.x+40 && mouseY > chnPos.y-40 && mouseY < chnPos.y +30 )
   {
-    myMovie.play();
-    image(myMovie, 0, 0, 500, 500);
-    myMovie.read();
+
+    textSize(15);
+    image(flags[1], SouchnPos.x, SouchnPos.y, imageSize, imageSize);
+    text("2nd\n18.1Trillion", SouchnPos.x+xP, SouchnPos.y+xY);
   }
+
+
+  // select for japan 
+  if (mouseX > japPos.x-40 && mouseX < japPos.x+40 && mouseY > japPos.y-40 && mouseY < japPos.y +30 )
+  {
+
+
+    textSize(15);
+    image(flags[2], SouchnPos.x+xP, SouchnPos.y+xY, imageSize, imageSize);
+    text("3rd", SouchnPos.x+xP, SouchnPos.y+xY);
+  }
+
+
+  // select for germany
+  if (mouseX > gerPos.x-40 && mouseX < gerPos.x+40 && mouseY > gerPos.y-40 && mouseY < gerPos.y +30 )
+  {
+
+
+    textSize(15);
+    image(flags[3], AoceanPos.x+xP, AoceanPos.y+xY, imageSize, imageSize );
+    text("4th", AoceanPos.x+xP, AoceanPos.y+xY);
+  }
+
+  // select uk
+  if (mouseX > ukPos.x-40 && mouseX < ukPos.x+40 && mouseY > ukPos.y-40 && mouseY < ukPos.y +30 )
+  {
+
+
+    textSize(15);
+    image(flags[4], AoceanPos.x+xP, AoceanPos.y+xY, imageSize, imageSize) ;
+    text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
+  }
+
+
+  // select france 
+  if (mouseX > fraPos.x-40 && mouseX < fraPos.x+40 && mouseY > fraPos.y-40 && mouseY < fraPos.y +30 )
+  {
+
+
+    textSize(15);
+    image(flags[5], AoceanPos.x+xP, AoceanPos.y+xY, imageSize, imageSize) ;
+    text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
+  }
+
+  //select brasil
+  if (mouseX > braPos.x-40 && mouseX < braPos.x+40 && mouseY > braPos.y-40 && mouseY < braPos.y +30 )
+  {
+
+
+    textSize(15);
+    image(flags[6], AoceanPos.x+xP, AoceanPos.y+xY, imageSize, imageSize) ;
+    text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
+  }
+  // select rus
+
+  if (mouseX > rusPos.x-40 && mouseX < rusPos.x+40 && mouseY > rusPos.y-40 && mouseY < rusPos.y +30 )
+  {
+
+
+    textSize(15);
+    image(flags[7], SouchnPos.x+xP, SouchnPos.y+xY, imageSize, imageSize) ;
+    text("5th", SouchnPos.x+xP, SouchnPos.y+xY);
+  }
+
+  // select ita
+
+  if (mouseX > itaPos.x-40 && mouseX < itaPos.x+40 && mouseY > itaPos.y-40 && mouseY < itaPos.y +30 )
+  {
+
+
+    textSize(15);
+    image(flags[8], SouchnPos.x+xP, SouchnPos.y+xY, imageSize, imageSize) ;
+    text("5th", SouchnPos.x+xP, SouchnPos.y+xY);
+  }
+
+  //select india
+  if (mouseX > indPos.x-40 && mouseX < indPos.x+40 && mouseY > indPos.y-40 && mouseY < indPos.y +30 )
+  {
+
+
+    textSize(15);
+    image(flags[9], SouchnPos.x+xP, SouchnPos.y+xY, imageSize, imageSize) ;
+    text("5th", SouchnPos.x+xP, SouchnPos.y+xY);
+  }
+
+  //draw text
+}
+
+
+void loadVideo()
+{
+  myMovie.play();
+  image(myMovie, 0, 0, 500, 500);
+  myMovie.read();
+}
 
 
 void draw()
 {
-  
-    background(bg);
+
+  background(bg);
 
   switch(mode)
   {
@@ -450,7 +498,7 @@ void draw()
 
   case 2:
     {
-      
+
       myMovie.stop();
       WorldMap();
 
@@ -465,7 +513,7 @@ void draw()
       break;
     }
   }// end switch
-  
+
   drawrect();
 }
 

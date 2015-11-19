@@ -5,7 +5,7 @@ class Data
      String country;
      float  economy;
      String year;
-     color colour;
+     
      
      // constructor
      Data(String line)
@@ -15,7 +15,7 @@ class Data
         country = part[1];
         economy = Float.parseFloat(part[2]);
         year = part[3];
-        colour = color(random(0, 255), random(0, 255), random(0, 255));
+        
      }
     
     
