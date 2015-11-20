@@ -32,8 +32,10 @@ SimplePointMarker braMarker;
 SimplePointMarker rusMarker;
 SimplePointMarker itaMarker;
 SimplePointMarker indMarker;
+SimplePointMarker canMarker;
 SimplePointMarker AoceanMarker;
 SimplePointMarker SouchnMarker;
+
 
 // calling objetc movie
 Movie myMovie;
@@ -68,7 +70,8 @@ void setup()
 
 
 
-
+  //call map metho
+  Map();
 
 
 
@@ -77,11 +80,16 @@ void setup()
   textFont(text);
 
   // INITIALIZING MAP OBJECTS
+}
+
+// implement marker method
+void Map()
+{
+  smooth();
 
   map = new UnfoldingMap(this, new Google.GoogleMapProvider());
   map.zoomToLevel(2);
   MapUtils.createDefaultEventDispatcher(this, map);
-
   // search for the location
   Location usaLocation = new Location(37, -95.71);
   usaMarker = new SimplePointMarker(usaLocation);
@@ -117,15 +125,56 @@ void setup()
   Location indLocation = new Location(20.5, 78.9);
   indMarker= new SimplePointMarker(indLocation);
 
+  Location canLocation = new Location(52.90,-108.7);
+  canMarker = new SimplePointMarker(canLocation);
+  
 
   Location AoceanLocation = new Location(32.3, -80);
   AoceanMarker = new SimplePointMarker(AoceanLocation);
 
   Location SouchnLocation = new Location(30.39, 124.7);
   SouchnMarker = new SimplePointMarker(SouchnLocation);
+
+
+  map.addMarkers(usaMarker, chnMarker, japMarker, gerMarker, ukMarker, fraMarker, braMarker, canMarker, itaMarker, indMarker);
+
+  //Adapt style fo each markers
+
+  usaMarker.setColor(color(#3A00FF));
+  usaMarker.setStrokeColor(color(255, 255, 255));
+
+  chnMarker.setColor(color(#FF0026));
+  chnMarker.setStrokeColor(color(255, 255, 255));
+
+
+  japMarker.setColor(color(255, 255, 255));
+  japMarker.setStrokeColor(color(#FF0026));
+
+  gerMarker.setColor(color(#FAFF00));
+  gerMarker.setStrokeColor(color(0,0,0));
+
+  ukMarker.setColor(color(#0700FF));
+  ukMarker.setStrokeColor(color(#FF002F));
+  
+  fraMarker.setColor(color(#3A00FF));
+  fraMarker.setStrokeColor(color(255, 255, 255));
+  
+  braMarker.setColor(color(#FFF700));
+  braMarker.setStrokeColor(color(#238E00));
+  
+  
+  
+
+  itaMarker.setColor(color(#018609));
+  itaMarker.setStrokeColor(color(255, 255, 255));
+  
+  
+  indMarker.setColor(color(#FF5E00));
+  indMarker.setStrokeColor(color(255, 255, 255));
+  
+  canMarker.setColor(color(#FF0000));
+  canMarker.setStrokeColor(color(255, 255, 255));
 }
-
-
 
 
 // load data
@@ -308,29 +357,18 @@ void WorldMap()
 
 
   String[]markNames = {
-  "main.png", "chna.png", "jap1.png",
-  "germ.png","fran.png","uk1.png","bras.png","rus1.png","ita1.png","indi.png"};
+    "main.png", "chna.png", "jap1.png", 
+    "germ.png", "fran.png", "uk1.png", "bras.png", "rus1.png", "ita1.png", "indi.png"
+  };
   PImage[] markerIcon = new PImage[10];
-  for(int i = 0; i < markNames.length; i ++)
+  for (int i = 0; i < markNames.length; i ++)
   {
-      markerIcon[i] =loadImage(markNames[i]);
-      
+    markerIcon[i] =loadImage(markNames[i]);
   }
   fill(#FC0303);
   stroke(255);
   /// draw circles
-  image(markerIcon[0], usaPos.x,usaPos.y,20,20);
-  ellipse(usaPos.x,usaPos.y,10,10);
-  ellipse(chnPos.x,chnPos.y,10,10);
-  ellipse(japPos.x, japPos.y, 10, 10);
-  
-  ellipse(ukPos.x,  ukPos.y, 10, 10);
-  ellipse(gerPos.x, gerPos.y, 10, 10);
-  ellipse(fraPos.x, fraPos.y, 10, 10);
- ellipse(braPos.x, braPos.y,10,10);
-  ellipse(rusPos.x, rusPos.y, 10, 10);
-  ellipse(itaPos.x, itaPos.y, 10, 10);
-  ellipse(indPos.x, indPos.y, 10, 10);
+
 
   for (int i = 0; i < flags.length; i ++)
   {
@@ -519,6 +557,19 @@ void draw()
 
 
 
+void mouseMoved() {
+  // Deselect all marker
+  for (Marker marker : map.getMarkers ()) {
+    marker.setSelected(false);
+  }
+
+  // Select hit marker
+
+  Marker marker = map.getFirstHitMarker(mouseX, mouseY);
+  if (marker != null) {
+    marker.setSelected(true);
+  }
+}
 void keyPressed()
 {
   if (key >= '0' && key <='4')
