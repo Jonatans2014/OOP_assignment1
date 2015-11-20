@@ -16,6 +16,7 @@ import de.fhpotsdam.utils.*;
 import de.fhpotsdam.unfolding.providers.*;
 import de.fhpotsdam.unfolding.*;
 import de.fhpotsdam.unfolding.providers.Microsoft;
+import java.util.List;
 
 
 
@@ -71,7 +72,7 @@ void setup()
 
 
   //call map metho
-  Map();
+   Map();
 
 
 
@@ -88,13 +89,18 @@ void Map()
   smooth();
 
   map = new UnfoldingMap(this, new Google.GoogleMapProvider());
+  map.setTweening(true);
   map.zoomToLevel(2);
+
   MapUtils.createDefaultEventDispatcher(this, map);
   // search for the location
   Location usaLocation = new Location(37, -95.71);
   usaMarker = new SimplePointMarker(usaLocation);
 
-
+  // load geoJSON
+   List<Feature> Top10Countries =  GeoJSONReader.loadData(this, "top10Countries.json");
+    List<Marker> Top10countryMarkers = MapUtils.createSimpleMarkers(Top10Countries);
+    map.addMarkers(Top10countryMarkers);
 
   Location chnLocation = new Location(35.86, 104.19);
   chnMarker= new SimplePointMarker(chnLocation);
@@ -125,9 +131,9 @@ void Map()
   Location indLocation = new Location(20.5, 78.9);
   indMarker= new SimplePointMarker(indLocation);
 
-  Location canLocation = new Location(52.90,-108.7);
+  Location canLocation = new Location(52.90, -108.7);
   canMarker = new SimplePointMarker(canLocation);
-  
+
 
   Location AoceanLocation = new Location(32.3, -80);
   AoceanMarker = new SimplePointMarker(AoceanLocation);
@@ -151,30 +157,38 @@ void Map()
   japMarker.setStrokeColor(color(#FF0026));
 
   gerMarker.setColor(color(#FAFF00));
-  gerMarker.setStrokeColor(color(0,0,0));
+  gerMarker.setStrokeColor(color(0, 0, 0));
 
   ukMarker.setColor(color(#0700FF));
   ukMarker.setStrokeColor(color(#FF002F));
-  
+
   fraMarker.setColor(color(#3A00FF));
   fraMarker.setStrokeColor(color(255, 255, 255));
-  
+
   braMarker.setColor(color(#FFF700));
   braMarker.setStrokeColor(color(#238E00));
-  
-  
-  
+
+
+
 
   itaMarker.setColor(color(#018609));
   itaMarker.setStrokeColor(color(255, 255, 255));
-  
-  
+
+
   indMarker.setColor(color(#FF5E00));
   indMarker.setStrokeColor(color(255, 255, 255));
-  
+
   canMarker.setColor(color(#FF0000));
   canMarker.setStrokeColor(color(255, 255, 255));
 }
+
+
+//This method will load a GeoJSON file so user can visualise it
+void loadGeoJSON()
+{
+   
+}
+
 
 
 // load data
@@ -354,7 +368,7 @@ void WorldMap()
   ScreenPosition indPos = indMarker.getScreenPosition(map);
   ScreenPosition AoceanPos = AoceanMarker.getScreenPosition(map);
   ScreenPosition SouchnPos = SouchnMarker.getScreenPosition(map);
-
+  ScreenPosition canPos  = canMarker.getScreenPosition(map);
 
   String[]markNames = {
     "main.png", "chna.png", "jap1.png", 
@@ -384,14 +398,15 @@ void WorldMap()
    */
 
   String Money = "Trillion";
+
   float xP  = width * 0.12;
   float xY = width * 0.02;
-  float imageSize = width *0.1;
-
+  float iSize = 10;
+  float imageSize = width *0.1f;
 
 
   //code to select and load an image 
-  if (mouseX > usaPos.x-40 && mouseX < usaPos.x+40 && mouseY > usaPos.y-40 && mouseY < usaPos.y +30 )
+  if (mouseX > usaPos.x-iSize && mouseX < usaPos.x+iSize && mouseY > usaPos.y-iSize && mouseY < usaPos.y+iSize )
   {
 
 
@@ -403,7 +418,7 @@ void WorldMap()
 
 
   // select for china
-  if (mouseX > chnPos.x-40 && mouseX < chnPos.x+40 && mouseY > chnPos.y-40 && mouseY < chnPos.y +30 )
+  if (mouseX > chnPos.x-iSize && mouseX < chnPos.x+iSize && mouseY > chnPos.y-iSize && mouseY < chnPos.y +iSize )
   {
 
     textSize(15);
@@ -413,7 +428,7 @@ void WorldMap()
 
 
   // select for japan 
-  if (mouseX > japPos.x-40 && mouseX < japPos.x+40 && mouseY > japPos.y-40 && mouseY < japPos.y +30 )
+  if (mouseX > japPos.x-iSize && mouseX < japPos.x+iSize && mouseY > japPos.y-iSize && mouseY < japPos.y +iSize )
   {
 
 
@@ -424,7 +439,7 @@ void WorldMap()
 
 
   // select for germany
-  if (mouseX > gerPos.x-40 && mouseX < gerPos.x+40 && mouseY > gerPos.y-40 && mouseY < gerPos.y +30 )
+  if (mouseX > gerPos.x-iSize && mouseX < gerPos.x+iSize && mouseY > gerPos.y-iSize && mouseY < gerPos.y +iSize )
   {
 
 
@@ -434,7 +449,7 @@ void WorldMap()
   }
 
   // select uk
-  if (mouseX > ukPos.x-40 && mouseX < ukPos.x+40 && mouseY > ukPos.y-40 && mouseY < ukPos.y +30 )
+  if (mouseX > ukPos.x-iSize && mouseX < ukPos.x+iSize && mouseY > ukPos.y-iSize && mouseY < ukPos.y +iSize )
   {
 
 
@@ -445,7 +460,7 @@ void WorldMap()
 
 
   // select france 
-  if (mouseX > fraPos.x-40 && mouseX < fraPos.x+40 && mouseY > fraPos.y-40 && mouseY < fraPos.y +30 )
+  if (mouseX > fraPos.x-iSize && mouseX < fraPos.x+iSize && mouseY > fraPos.y-iSize && mouseY < fraPos.y +iSize )
   {
 
 
@@ -455,7 +470,7 @@ void WorldMap()
   }
 
   //select brasil
-  if (mouseX > braPos.x-40 && mouseX < braPos.x+40 && mouseY > braPos.y-40 && mouseY < braPos.y +30 )
+  if (mouseX > braPos.x-iSize && mouseX < braPos.x+iSize && mouseY > braPos.y-iSize && mouseY < braPos.y +iSize )
   {
 
 
@@ -465,18 +480,18 @@ void WorldMap()
   }
   // select rus
 
-  if (mouseX > rusPos.x-40 && mouseX < rusPos.x+40 && mouseY > rusPos.y-40 && mouseY < rusPos.y +30 )
+  if (mouseX > canPos.x-iSize && mouseX < canPos.x+iSize && mouseY > canPos.y-iSize && mouseY < canPos.y +iSize )
   {
 
 
     textSize(15);
-    image(flags[7], SouchnPos.x+xP, SouchnPos.y+xY, imageSize, imageSize) ;
-    text("5th", SouchnPos.x+xP, SouchnPos.y+xY);
+    image(flags[6], AoceanPos.x+xP, AoceanPos.y+xY, imageSize, imageSize) ;
+    text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
   }
 
   // select ita
 
-  if (mouseX > itaPos.x-40 && mouseX < itaPos.x+40 && mouseY > itaPos.y-40 && mouseY < itaPos.y +30 )
+  if (mouseX > itaPos.x-iSize && mouseX < itaPos.x+iSize && mouseY > itaPos.y-iSize && mouseY < itaPos.y +iSize )
   {
 
 
@@ -486,7 +501,7 @@ void WorldMap()
   }
 
   //select india
-  if (mouseX > indPos.x-40 && mouseX < indPos.x+40 && mouseY > indPos.y-40 && mouseY < indPos.y +30 )
+  if (mouseX > indPos.x-iSize && mouseX < indPos.x+iSize && mouseY > indPos.y-iSize && mouseY < indPos.y +iSize )
   {
 
 
@@ -557,24 +572,31 @@ void draw()
 
 
 
+
 void mouseMoved() {
   // Deselect all marker
-  for (Marker marker : map.getMarkers ()) {
-    marker.setSelected(false);
+  for (Marker markerSelect : map.getMarkers ()) {
+    markerSelect.setSelected(false);
   }
 
   // Select hit marker
 
-  Marker marker = map.getFirstHitMarker(mouseX, mouseY);
-  if (marker != null) {
-    marker.setSelected(true);
+  Marker markerSelect = map.getFirstHitMarker(mouseX, mouseY);
+  if (markerSelect != null) {
+    markerSelect.setSelected(true);
   }
 }
+
+
 void keyPressed()
 {
   if (key >= '0' && key <='4')
   {
     mode = key - '0';
+  }
+  
+  if (key == ' ') {
+    map.getDefaultMarkerManager().toggleDrawing();
   }
   println(mode);
 }
