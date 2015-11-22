@@ -37,6 +37,14 @@ SimplePointMarker canMarker;
 SimplePointMarker AoceanMarker;
 SimplePointMarker SouchnMarker;
 
+// array with locations
+Location[] Top10Locations =  new Location[] {
+  new Location(37, -95.71), new Location(35.86, 104.19), 
+  new Location(36.20, 138.2), new Location(51.16, 10.45), new Location(52.3, -1.17), new Location(52.3, -1.17), 
+  new Location(46.2, 2.21), new Location(-14.2, -51.9), new Location(41.8, 12.5)
+  };
+
+  int changeLocation = 0;
 
 // calling objetc movie
 Movie myMovie;
@@ -72,7 +80,7 @@ void setup()
 
 
   //call map metho
-   Map();
+  Map();
 
 
 
@@ -98,9 +106,9 @@ void Map()
   usaMarker = new SimplePointMarker(usaLocation);
 
   // load geoJSON
-   List<Feature> Top10Countries =  GeoJSONReader.loadData(this, "top10Countries.json");
-    List<Marker> Top10countryMarkers = MapUtils.createSimpleMarkers(Top10Countries);
-    map.addMarkers(Top10countryMarkers);
+  List<Feature> Top10Countries =  GeoJSONReader.loadData(this, "top10Countries.json");
+  List<Marker> Top10countryMarkers = MapUtils.createSimpleMarkers(Top10Countries);
+  map.addMarkers(Top10countryMarkers);
 
   Location chnLocation = new Location(35.86, 104.19);
   chnMarker= new SimplePointMarker(chnLocation);
@@ -182,11 +190,24 @@ void Map()
   canMarker.setStrokeColor(color(255, 255, 255));
 }
 
+void ZoomAn()
+{
+  map.draw();
+  if (frameCount % 120 == 0) {
+
+
+    map.zoomAndPanTo(Top10Locations[changeLocation], 4);
+    changeLocation++;
+    if (changeLocation >= Top10Locations.length) {
+      changeLocation = 0;
+    }
+  }
+}
+
 
 //This method will load a GeoJSON file so user can visualise it
 void loadGeoJSON()
 {
-   
 }
 
 
@@ -514,6 +535,7 @@ void WorldMap()
 }
 
 
+
 void loadVideo()
 {
   myMovie.play();
@@ -532,7 +554,8 @@ void draw()
   case 0:
     {
 
-      DataInfo.clear();  
+      DataInfo.clear(); 
+      myMovie.stop(); 
       loadData();
 
 
@@ -552,6 +575,7 @@ void draw()
   case 2:
     {
 
+      map.zoomToLevel(2);
       myMovie.stop();
       WorldMap();
 
@@ -565,8 +589,16 @@ void draw()
       loadVideo();
       break;
     }
-  }// end switch
+    // end switch
 
+
+  case 4:
+    {
+      DataInfo.clear(); 
+      ZoomAn();
+      break;
+    }
+  }
   drawrect();
 }
 
@@ -594,7 +626,7 @@ void keyPressed()
   {
     mode = key - '0';
   }
-  
+
   if (key == ' ') {
     map.getDefaultMarkerManager().toggleDrawing();
   }
