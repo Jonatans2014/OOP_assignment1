@@ -20,6 +20,8 @@ import java.util.List;
 
 
 
+
+
 UnfoldingMap map;
 // Create point markers for locations
 SimplePointMarker usaMarker;
@@ -49,7 +51,7 @@ Location[] Top10Locations =  new Location[] {
 // calling objetc movie
 Movie myMovie;
 // global array list
-int mode = 5;
+int mode = 0;
 PFont text;
 
 PShape  rect;
@@ -63,13 +65,26 @@ PImage bg;
 //declaring variable to load img
 
 PImage[] flags = new PImage[10];
+PImage mapImg, videoImg, mapMarkersimg, bartchartimg;
+
 
 String[] flagNames = {
   "usa.png", "chi.png", "jap.jpg", "ger.png", "uk.jpg", "fra.png", "bra.png", "rus.jpg", "ita.png", "ind.png"
 };
 
+int[] chanRad = {
+  50, 90, 130, 300
+} 
+;
+int rot0 = 0;
+int rot1 = 1;
+int rot2 = 2;
+int rot3 = 3;
+PShape mapShape;
 void setup()
 {
+
+
 
   size(500, 500, P3D);
   smooth();
@@ -78,6 +93,10 @@ void setup()
   bg = loadImage("bg_night.png");
 
 
+  mapImg = loadImage("earthpic.jpg"); 
+  videoImg = loadImage("bestCountries.jpg");
+  mapMarkersimg = loadImage("marked.jpg");
+  bartchartimg = loadImage("barchartImg.jpg");
 
   //call map metho
   Map();
@@ -89,6 +108,77 @@ void setup()
   textFont(text);
 
   // INITIALIZING MAP OBJECTS
+}
+
+
+void Menu()
+{
+  background(bg);
+  lights();
+  //noStroke();
+  int changeRot;
+  translate(width/2, height/2);
+
+
+
+
+  pushMatrix();
+  rotateY(radians(chanRad[rot0]));
+
+  mapShape = createShape(SPHERE, 20);
+  mapShape.setTexture(mapImg);
+  shape(mapShape, -200, 0);
+  noStroke();
+  rotateX((radians(frameCount/2)));
+
+  sphereDetail(50);
+  popMatrix();
+
+
+
+
+  // sphere 2
+
+  pushMatrix();
+  rotateY(radians(chanRad[rot1]));
+
+  mapShape = createShape(SPHERE, 20);
+  mapShape.setTexture(mapMarkersimg);
+  shape(mapShape, -200, 0);
+  noStroke();
+  rotateX((radians(frameCount/2)));
+
+  sphereDetail(50);
+  popMatrix();
+
+
+  // sphere 3
+
+  pushMatrix();
+  rotateY(radians(chanRad[rot2]));
+
+  mapShape = createShape(SPHERE, 20);
+  mapShape.setTexture(videoImg);
+  shape(mapShape, -200, 0);
+  noStroke();
+  rotateX((radians(frameCount/2)));
+
+  sphereDetail(50);
+  popMatrix();
+
+  // sphere 4
+
+  pushMatrix();
+  rotateY(radians(chanRad[rot3]));
+
+  mapShape = createShape(SPHERE, 20);
+  mapShape.setTexture( bartchartimg);
+  shape(mapShape, -200, 0);
+  noStroke();
+  rotateX((radians(frameCount /2)));
+
+  sphereDetail(50);
+  popMatrix();
 }
 
 // implement marker method
@@ -190,6 +280,10 @@ void Map()
   canMarker.setStrokeColor(color(255, 255, 255));
 }
 
+
+
+
+
 void ZoomAn()
 {
   map.draw();
@@ -204,11 +298,41 @@ void ZoomAn()
   }
 }
 
-
-//This method will load a GeoJSON file so user can visualise it
-void loadGeoJSON()
+void loadAni()
 {
+  String[] lines = {
+    "Economies.csv", "Economies2016.csv", "Economies2017.csv"
+  };
+
+  String[] line= { 
+    "Economies.csv"
+  };
+
+
+  if (frameCount % 120 == 0) {
+
+
+    line = loadStrings(lines[changeLocation]);
+    // populate classes
+
+    for (int i = 0; i < line.length; i ++)
+    {
+      Data dataobject = new Data(line[i]);
+
+      println("display  and change location" +line[i], "change to "+ changeLocation);
+      //populate array lsit
+      DataInfo.add(dataobject);
+
+
+
+      changeLocation ++;      
+      if (changeLocation >= lines.length) {
+        changeLocation = 0;
+      }
+    }
+  }
 }
+
 
 
 
@@ -220,6 +344,10 @@ void loadData()
     "Economies.csv"
   };
 
+  for (int i = 0; i < lines.length; i ++)
+  {
+    println("this first string"+lines);
+  }
   if (mode == 0)
   {
     lines = loadStrings("Economies.csv");
@@ -242,12 +370,14 @@ void loadData()
   {
     // populate classes
     Data dataobject = new Data(lines[i]);
-    //populate array lsit
+    //populate array list
     DataInfo.add(dataobject);
+
+    println(lines.length);
   }
 
 
-  // if mouse presse statement
+  // if mouse pressed statement
 }
 
 
@@ -547,17 +677,18 @@ void loadVideo()
 void draw()
 {
 
-  background(bg);
+
 
   switch(mode)
   {
   case 0:
     {
-
+      Menu();
+      /*
       DataInfo.clear(); 
-      myMovie.stop(); 
-      loadData();
-
+       myMovie.stop(); 
+       loadData();
+       */
 
 
       break;
@@ -598,6 +729,15 @@ void draw()
       ZoomAn();
       break;
     }
+
+
+  case 5:
+    {
+      DataInfo.clear();
+      loadAni();
+
+      break;
+    }
   }
   drawrect();
 }
@@ -622,13 +762,43 @@ void mouseMoved() {
 
 void keyPressed()
 {
-  if (key >= '0' && key <='4')
+  if (key >= '0' && key <='5')
   {
     mode = key - '0';
   }
 
   if (key == ' ') {
     map.getDefaultMarkerManager().toggleDrawing();
+  }
+
+  if (key == CODED)
+  {
+    if (keyCode == LEFT)
+    {
+
+
+      rot0 ++;
+      rot1 ++;
+      rot2 ++;
+      rot3 ++;
+
+      if (rot0 == 4)
+      {
+        rot0 = 0;
+      }
+      if (rot1 == 4)
+      {
+        rot1 = 0;
+      }
+      if (rot2 == 4)
+      {
+        rot2 = 0;
+      }
+      if (rot3 == 4)
+      {
+        rot3 = 0;
+      }
+    }
   }
   println(mode);
 }
