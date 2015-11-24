@@ -51,7 +51,7 @@ Location[] Top10Locations =  new Location[] {
 // calling objetc movie
 Movie myMovie;
 // global array list
-int mode = 7;
+int mode = 6;
 PFont text;
 
 PShape  rect;
@@ -103,11 +103,11 @@ void setup()
 
 
 
-  text = createFont("Arial-BoldItalicMT-20.vlw", 20);
+  text = createFont("Arial-BoldItalicMT-15.vlw", 15);
 
   textFont(text);
 
-  // INITIALIZING MAP OBJECTS
+  // INITIALIZING MAP OBJCTS
 }
 
 
@@ -179,6 +179,38 @@ void Menu()
 
   sphereDetail(50);
   popMatrix();
+  
+  textFont(text);
+  
+  
+  // add text
+  
+  if(chanRad[rotA] == chanRad[1])
+  {
+    textSize(15);
+    fill(255);
+    text("LOAD MAP",-50,100);
+  }
+  
+  if(chanRad[rotB] == chanRad[1])
+  {
+    textSize(15);
+    fill(255);
+    text("LOAD COUNTRY MARKERS",-50,100);
+  }
+  if(chanRad[rotC] == chanRad[1])
+  {
+    textSize(15);
+    fill(255);
+    text("LOAD BEST COUNTRIES TO LIVE IN",-50,100);
+  }
+  if(chanRad[rotD] == chanRad[1])
+  {
+    textSize(15);
+    fill(255);
+    text("LOAD BARCHART",-50,100);
+  }
+  
 }
 
 // implement marker method
@@ -439,7 +471,7 @@ void drawrect()
     float recty = width * 0.05f;
 
     // draw the rectagle
-    rect(x, border, barWidth, recty);
+    
 
     fill(255);
     stroke(#4B4B50);
@@ -453,51 +485,21 @@ void drawrect()
       stroke(0);
     }
 
-
+    
     text(DataInfo.get(i).country, x, windowsRange + recty);
 
 
     text(nf(DataInfo.get(i).economy, 1, 1), x, textmap);
 
-    flags[i] = loadImage(flagNames[i]);
+    
+    
+    
+    textFont(text);;
+    text("GDP in trillions of U.S. dollars.",150,100);
+
+   
 
 
-
-    // code to do the roll over and load flag
-    /*
-    if (mouseX > x && mouseX < x +barWidth && mouseY > height/1.5 && mouseY < windowsRange)
-     {
-     imageMode(CENTER);
-     image(flags[i], width/2, height/2, width*0.2, height*0.2);
-     
-     }*/
-
-
-    // code to draw 10 rect 
-
-    smooth();
-
-    strokeWeight(2);
-    fill(255);
-    textSize(16);
-
-    text(DataInfo.get(i).year, x, 70);
-
-
-    float x2 =  map(i, 0, DataInfo.size()-1, 20, 450);
-
-
-    // code to do the mouse over
-    if (mouseX > x2 && mouseX < x2 +rectwidth && mouseY > border && mouseY < border+recty)
-    {
-
-
-
-      stroke(rectHighlight);
-      fill(rectHighlight);
-
-      println("hey tell me somethi right not  " +mouseY);
-    }
   }
 }
 
@@ -677,7 +679,7 @@ void loadVideo()
 void draw()
 {
 
-  background(bg);
+  
 
   switch(mode)
   {
@@ -742,14 +744,18 @@ void draw()
 
   case 6:
     {
-      background(bg);
+     
+      
       DataInfo.clear();
-      Menu();
+       Menu();
+       break;
+      
     }
   case 7 :
     {
-
+      DataInfo.clear();
       map.draw();
+      
       break;
     }
   }
@@ -786,7 +792,7 @@ void keyPressed()
   }
 
 
-  if (key == ENTER )
+  if (key == ENTER && chanRad[rotA] == chanRad[1] )
   {
     println("works  chanrad" + chanRad[rotA], chanRad[1]);
     mode = 7;
