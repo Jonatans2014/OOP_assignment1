@@ -51,7 +51,7 @@ Location[] Top10Locations =  new Location[] {
 // calling objetc movie
 Movie myMovie;
 // global array list
-int mode = 0;
+int mode = 7;
 PFont text;
 
 PShape  rect;
@@ -76,10 +76,10 @@ int[] chanRad = {
   50, 90, 130, 300
 } 
 ;
-int rot0 = 0;
-int rot1 = 1;
-int rot2 = 2;
-int rot3 = 3;
+int rotA = 0;
+int rotB = 1;
+int rotC = 2;
+int rotD = 3;
 PShape mapShape;
 void setup()
 {
@@ -123,9 +123,9 @@ void Menu()
 
 
   pushMatrix();
-  rotateY(radians(chanRad[rot0]));
+  rotateY(radians(chanRad[rotA]));
 
-  mapShape = createShape(SPHERE, 20);
+  mapShape = createShape(SPHERE, 30);
   mapShape.setTexture(mapImg);
   shape(mapShape, -200, 0);
   noStroke();
@@ -140,9 +140,9 @@ void Menu()
   // sphere 2
 
   pushMatrix();
-  rotateY(radians(chanRad[rot1]));
+  rotateY(radians(chanRad[rotB]));
 
-  mapShape = createShape(SPHERE, 20);
+  mapShape = createShape(SPHERE, 30);
   mapShape.setTexture(mapMarkersimg);
   shape(mapShape, -200, 0);
   noStroke();
@@ -155,9 +155,9 @@ void Menu()
   // sphere 3
 
   pushMatrix();
-  rotateY(radians(chanRad[rot2]));
+  rotateY(radians(chanRad[rotC]));
 
-  mapShape = createShape(SPHERE, 20);
+  mapShape = createShape(SPHERE, 30);
   mapShape.setTexture(videoImg);
   shape(mapShape, -200, 0);
   noStroke();
@@ -169,9 +169,9 @@ void Menu()
   // sphere 4
 
   pushMatrix();
-  rotateY(radians(chanRad[rot3]));
+  rotateY(radians(chanRad[rotD]));
 
-  mapShape = createShape(SPHERE, 20);
+  mapShape = createShape(SPHERE, 30);
   mapShape.setTexture( bartchartimg);
   shape(mapShape, -200, 0);
   noStroke();
@@ -677,18 +677,18 @@ void loadVideo()
 void draw()
 {
 
-
+  background(bg);
 
   switch(mode)
   {
   case 0:
     {
-      Menu();
-      /*
+
+
       DataInfo.clear(); 
-       myMovie.stop(); 
-       loadData();
-       */
+      myMovie.stop(); 
+      loadData();
+
 
 
       break;
@@ -706,6 +706,7 @@ void draw()
   case 2:
     {
 
+      DataInfo.clear();
       map.zoomToLevel(2);
       myMovie.stop();
       WorldMap();
@@ -738,6 +739,19 @@ void draw()
 
       break;
     }
+
+  case 6:
+    {
+      background(bg);
+      DataInfo.clear();
+      Menu();
+    }
+  case 7 :
+    {
+
+      map.draw();
+      break;
+    }
   }
   drawrect();
 }
@@ -762,7 +776,7 @@ void mouseMoved() {
 
 void keyPressed()
 {
-  if (key >= '0' && key <='5')
+  if (key >= '0' && key <='7')
   {
     mode = key - '0';
   }
@@ -771,32 +785,87 @@ void keyPressed()
     map.getDefaultMarkerManager().toggleDrawing();
   }
 
+
+  if (key == ENTER )
+  {
+    println("works  chanrad" + chanRad[rotA], chanRad[1]);
+    mode = 7;
+  }
+  if (key == ENTER && chanRad[rotB] == chanRad[1])
+  {
+    println("works  chanrad" + chanRad[rotA], chanRad[1]);
+    // mapImg, videoImg, mapMarkersimg, bartchartimg;
+    mode = 2;
+  }
+  if (key == ENTER && chanRad[rotC] == chanRad[1])
+  {
+    println("works  chanrad" + chanRad[rotA], chanRad[1]);
+    // mapImg, videoImg, mapMarkersimg, bartchartimg;
+    mode =3;
+  }
+  if (key == ENTER && chanRad[rotD] == chanRad[1])
+  {
+    println("works  chanrad" + chanRad[rotA], chanRad[1]);
+    // mapImg, videoImg, mapMarkersimg, bartchartimg;
+    mode = 0;
+  }
+
   if (key == CODED)
   {
     if (keyCode == LEFT)
     {
 
 
-      rot0 ++;
-      rot1 ++;
-      rot2 ++;
-      rot3 ++;
+      rotA ++;
+      rotB ++;
+      rotC ++;
+      rotD ++;
 
-      if (rot0 == 4)
+      if (rotA == 4)
       {
-        rot0 = 0;
+        rotA = 0;
       }
-      if (rot1 == 4)
+      if (rotB == 4)
       {
-        rot1 = 0;
+        rotB = 0;
       }
-      if (rot2 == 4)
+      if (rotC == 4)
       {
-        rot2 = 0;
+        rotC = 0;
       }
-      if (rot3 == 4)
+      if (rotD == 4)
       {
-        rot3 = 0;
+        rotD = 0;
+      }
+    }
+
+
+
+
+    if (keyCode == RIGHT)
+    {
+
+
+      rotA --;
+      rotB --;
+      rotC --;
+      rotD --;
+
+      if (rotA == -1)
+      {
+        rotA = 3;
+      }
+      if (rotB == -1)
+      {
+        rotB = 3;
+      }
+      if (rotC == -1)
+      {
+        rotC = 3;
+      }
+      if (rotD == -1)
+      {
+        rotD = 3;
       }
     }
   }
