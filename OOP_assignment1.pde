@@ -341,8 +341,8 @@ void loadAni()
   };
 
 
-  if (frameCount % 120 == 0) {
-
+  if (frameCount % 140 == 0) {
+        background(bg);
 
     line = loadStrings(lines[changeLocation]);
     // populate classes
@@ -678,6 +678,8 @@ void loadVideo()
 
 void draw()
 {
+  
+  
 
   
 
@@ -687,7 +689,8 @@ void draw()
     {
 
 
-      DataInfo.clear(); 
+      DataInfo.clear();
+      background(bg);  
       myMovie.stop(); 
       loadData();
 
@@ -699,7 +702,8 @@ void draw()
   case 1:
     {
 
-      DataInfo.clear(); 
+      DataInfo.clear();
+     background(bg); 
       myMovie.stop();
       loadData();
       break;
@@ -736,6 +740,7 @@ void draw()
 
   case 5:
     {
+      
       DataInfo.clear();
       loadAni();
 
