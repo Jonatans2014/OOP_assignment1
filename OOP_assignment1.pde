@@ -221,7 +221,7 @@ void Map()
   map = new UnfoldingMap(this, new Google.GoogleMapProvider());
   map.setTweening(true);
   map.zoomToLevel(2);
-  map.panTo(new Location(30.39, 124.7));
+ 
   MapUtils.createDefaultEventDispatcher(this, map);
   // search for the location
   Location usaLocation = new Location(37, -95.71);
@@ -505,7 +505,7 @@ void drawrect()
 void WorldMap()
 {
 
-  map.panTo(new Location(30.39, 124.7));
+ 
   map.draw();
   ScreenPosition usaPos = usaMarker.getScreenPosition(map);
   ScreenPosition chnPos = chnMarker.getScreenPosition(map);
@@ -720,7 +720,7 @@ void draw()
 
   case 3:
     {
-      background(bg); 
+      
       DataInfo.clear(); 
      
       loadVideo();
@@ -760,7 +760,7 @@ void draw()
     }
   case 7 :
     {
-
+       
       DataInfo.clear();
       map.draw();
 
