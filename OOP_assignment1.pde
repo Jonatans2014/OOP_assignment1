@@ -754,13 +754,13 @@ void draw()
 
 
       DataInfo.clear();
-      myMovie.stop();
+   
       Menu();
       break;
     }
   case 7 :
     {
-       
+
       DataInfo.clear();
       map.draw();
 
