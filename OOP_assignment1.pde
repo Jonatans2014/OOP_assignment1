@@ -123,6 +123,7 @@ void Menu()
 
 
   pushMatrix();
+
   rotateY(radians(chanRad[rotA]));
 
   mapShape = createShape(SPHERE, 30);
@@ -179,38 +180,37 @@ void Menu()
 
   sphereDetail(50);
   popMatrix();
-  
+
   textFont(text);
-  
-  
+
+
   // add text
-  
-  if(chanRad[rotA] == chanRad[1])
+
+    if (chanRad[rotA] == chanRad[1])
   {
     textSize(15);
     fill(255);
-    text("LOAD MAP",-50,100);
+    text("LOAD MAP", -50, 100);
   }
-  
-  if(chanRad[rotB] == chanRad[1])
+
+  if (chanRad[rotB] == chanRad[1])
   {
     textSize(15);
     fill(255);
-    text("LOAD COUNTRY MARKERS",-50,100);
+    text("LOAD COUNTRY MARKERS", -50, 100);
   }
-  if(chanRad[rotC] == chanRad[1])
+  if (chanRad[rotC] == chanRad[1])
   {
     textSize(15);
     fill(255);
-    text("LOAD BEST COUNTRIES TO LIVE IN",-50,100);
+    text("LOAD BEST COUNTRIES TO LIVE IN", -50, 100);
   }
-  if(chanRad[rotD] == chanRad[1])
+  if (chanRad[rotD] == chanRad[1])
   {
     textSize(15);
     fill(255);
-    text("LOAD BARCHART",-50,100);
+    text("LOAD BARCHART", -50, 100);
   }
-  
 }
 
 // implement marker method
@@ -221,7 +221,7 @@ void Map()
   map = new UnfoldingMap(this, new Google.GoogleMapProvider());
   map.setTweening(true);
   map.zoomToLevel(2);
-
+  map.panTo(new Location(30.39, 124.7));
   MapUtils.createDefaultEventDispatcher(this, map);
   // search for the location
   Location usaLocation = new Location(37, -95.71);
@@ -342,7 +342,7 @@ void loadAni()
 
 
   if (frameCount % 140 == 0) {
-        background(bg);
+    background(bg);
 
     line = loadStrings(lines[changeLocation]);
     // populate classes
@@ -471,7 +471,7 @@ void drawrect()
     float recty = width * 0.05f;
 
     // draw the rectagle
-    
+
 
     fill(255);
     stroke(#4B4B50);
@@ -485,21 +485,18 @@ void drawrect()
       stroke(0);
     }
 
-    
+
     text(DataInfo.get(i).country, x, windowsRange + recty);
 
 
     text(nf(DataInfo.get(i).economy, 1, 1), x, textmap);
 
-    
-    
-    
-    textFont(text);;
-    text("GDP in trillions of U.S. dollars.",150,100);
-
-   
 
 
+
+    textFont(text);
+    ;
+    text("GDP in trillions of U.S. dollars.", 150, 100);
   }
 }
 
@@ -508,6 +505,7 @@ void drawrect()
 void WorldMap()
 {
 
+  map.panTo(new Location(30.39, 124.7));
   map.draw();
   ScreenPosition usaPos = usaMarker.getScreenPosition(map);
   ScreenPosition chnPos = chnMarker.getScreenPosition(map);
@@ -678,10 +676,10 @@ void loadVideo()
 
 void draw()
 {
-  
-  
 
-  
+
+
+
 
   switch(mode)
   {
@@ -703,7 +701,7 @@ void draw()
     {
 
       DataInfo.clear();
-     background(bg); 
+      background(bg); 
       myMovie.stop();
       loadData();
       break;
@@ -722,8 +720,9 @@ void draw()
 
   case 3:
     {
-      // movie
+      background(bg); 
       DataInfo.clear(); 
+     
       loadVideo();
       break;
     }
@@ -732,7 +731,9 @@ void draw()
 
   case 4:
     {
-      DataInfo.clear(); 
+      background(bg); 
+      DataInfo.clear();
+      myMovie.stop(); 
       ZoomAn();
       break;
     }
@@ -740,8 +741,9 @@ void draw()
 
   case 5:
     {
-      
+
       DataInfo.clear();
+      myMovie.stop();
       loadAni();
 
       break;
@@ -749,18 +751,19 @@ void draw()
 
   case 6:
     {
-     
-      
+
+
       DataInfo.clear();
-       Menu();
-       break;
-      
+      myMovie.stop();
+      Menu();
+      break;
     }
   case 7 :
     {
+
       DataInfo.clear();
       map.draw();
-      
+
       break;
     }
   }
@@ -821,17 +824,14 @@ void keyPressed()
     mode = 0;
   }
 
-  if (key == CODED)
-  {
-    if (keyCode == LEFT)
+ 
+    if(key == 'a' || key == 'A')
     {
-
-
       rotA ++;
       rotB ++;
       rotC ++;
       rotD ++;
-
+    
       if (rotA == 4)
       {
         rotA = 0;
@@ -853,7 +853,7 @@ void keyPressed()
 
 
 
-    if (keyCode == RIGHT)
+    if (key == 'd' || key =='D')
     {
 
 
@@ -878,8 +878,6 @@ void keyPressed()
       {
         rotD = 3;
       }
-    }
-  }
-  println(mode);
+}
 }
 
