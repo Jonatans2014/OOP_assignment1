@@ -42,7 +42,7 @@ class Menu
     textFont(text);
 
     //add text title
-    text("TOP 10 LARGEST ECONOMIES IN THE WORLD\n                         &\n BEST COUNTRIES TO LIVE IN", 100, 50);
+    
     translate(width/2, height/2);
 
 
@@ -131,7 +131,7 @@ class Menu
     {
 
 
-      text("BARCHAT 2015", stextx, 100);
+      text("BARCHART 2015", stextx, 100);
     }
 
     if (chanRad[rotE] == chanRad[1])

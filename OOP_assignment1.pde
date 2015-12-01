@@ -126,7 +126,7 @@ void Map()
   map = new UnfoldingMap(this, new Google.GoogleMapProvider());
   map.setTweening(true);
   map.zoomToLevel(2);
- 
+
   MapUtils.createDefaultEventDispatcher(this, map);
   // search for the location
   Location usaLocation = new Location(37, -95.71);
@@ -170,7 +170,7 @@ void Map()
   canMarker = new SimplePointMarker(canLocation);
 
 
-  Location AoceanLocation = new Location(32.3, -80);
+  Location AoceanLocation = new Location(53.43, -20.6);
   AoceanMarker = new SimplePointMarker(AoceanLocation);
 
   Location SouchnLocation = new Location(30.39, 124.7);
@@ -244,6 +244,9 @@ void loadAni()
   String[] line= { 
     "Economies.csv"
   };
+  String[] years  = {
+    "2015", "2016", "2017"
+  };
 
 
   if (frameCount % 140 == 0) {
@@ -252,15 +255,26 @@ void loadAni()
     line = loadStrings(lines[changeLocation]);
     // populate classes
 
+    float rectwidth = width * 0.08f;
+    float recty = width * 0.05f;
+    float border = width * 0.1f;
+
+
+    fill(#0C027C);
+    stroke(255);
+
+    fill(255);
+
+
     for (int i = 0; i < line.length; i ++)
     {
       Data dataobject = new Data(line[i]);
 
       println("display  and change location" +line[i], "change to "+ changeLocation);
-      //populate array lsit
+      //populate array list
+      
       DataInfo.add(dataobject);
-
-
+      text(years[changeLocation], width*0.4f, 140);
 
       changeLocation ++;      
       if (changeLocation >= lines.length) {
@@ -281,11 +295,11 @@ void loadData()
     "Economies.csv"
   };
 
- 
- 
-    lines = loadStrings("Economies.csv");
-  
- 
+
+
+  lines = loadStrings("Economies.csv");
+  textFont(text);
+
 
   // this line of code gonna load the data called gdp
 
@@ -295,7 +309,11 @@ void loadData()
   float border = width * 0.1f;
 
 
+  fill(#0C027C);
+  stroke(255);
 
+  fill(255);
+  text("2015", width*0.4f, 140);
   for (int i = 0; i < lines.length; i ++)
   {
     // populate classes
@@ -305,9 +323,6 @@ void loadData()
 
     println(lines.length);
   }
-
-
-  // if mouse pressed statement
 }
 
 
@@ -394,7 +409,7 @@ void drawrect()
 
     textFont(text);
     ;
-    text("GDP in trillions of U.S. dollars.", 150, 100);
+    text("GDP in trillions of U.S. dollars.", width*0.3f, height*0.2f);
   }
 }
 
@@ -447,6 +462,7 @@ void CountriesInfo()
   float imageSize = width *0.1f;
 
 
+  stroke(255);
   //code to select and load an image 
   if (mouseX > usaPos.x-iSize && mouseX < usaPos.x+iSize && mouseY > usaPos.y-iSize && mouseY < usaPos.y+iSize )
   {
@@ -454,8 +470,9 @@ void CountriesInfo()
 
 
     textSize(15);
-
-    text("1st\n18.1Trillion", AoceanPos.x+xP, AoceanPos.y+xY);
+    
+    stroke(255);
+    text("1st\nUSA",  usaPos.x+xP, usaPos.y+xY);
   }
 
 
@@ -465,7 +482,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("2nd\n18.1Trillion", SouchnPos.x+xP, SouchnPos.y+xY);
+    text("2nd\nCHN",  chnPos.x+xP,  chnPos.y+xY);
   }
 
 
@@ -476,7 +493,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("3rd", SouchnPos.x+xP, SouchnPos.y+xY);
+    text("3rd\n JAP", japPos.x+xP, japPos.x+xY);
   }
 
 
@@ -487,7 +504,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("4th", AoceanPos.x+xP, AoceanPos.y+xY);
+    text("4th\nDEU",  AoceanPos.x,AoceanPos.y);
   }
 
   // select uk
@@ -497,7 +514,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
+    text("5th\nUK", AoceanPos.x,AoceanPos.y);
   }
 
 
@@ -508,7 +525,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
+    text("6th\nFRA", AoceanPos.x,AoceanPos.y);
   }
 
   //select brasil
@@ -518,18 +535,11 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
+    text("7th\nBR",braPos.x+xP,braPos.y+xP);
   }
   // select rus
 
-  if (mouseX > canPos.x-iSize && mouseX < canPos.x+iSize && mouseY > canPos.y-iSize && mouseY < canPos.y +iSize )
-  {
-
-
-    textSize(15);
-
-    text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
-  }
+  
 
   // select ita
 
@@ -539,7 +549,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("5th", SouchnPos.x+xP, SouchnPos.y+xY);
+    text("8th\n ITA", AoceanPos.x,AoceanPos.y);
   }
 
   //select india
@@ -549,7 +559,15 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("5th", SouchnPos.x+xP, SouchnPos.y+xY);
+    text("9th\nIND", SouchnPos.x+xP, SouchnPos.y+xY);
+  }
+  if (mouseX > canPos.x-iSize && mouseX < canPos.x+iSize && mouseY > canPos.y-iSize && mouseY < canPos.y +iSize )
+  {
+
+
+    textSize(15);
+
+    text("10th\nCAN", AoceanPos.x+xP, AoceanPos.y+xY);
   }
 
   //draw text
@@ -573,14 +591,15 @@ void draw()
 
 
 
- switch(mode)
+  switch(mode)
   {
   case 0:
     {
       DataInfo.clear();
       myMovie.stop();
-      CountriesInfo();
+     
       map.draw();
+       CountriesInfo();
       break;
     }// case 0
 
@@ -628,7 +647,7 @@ void draw()
   case 5:
     {
       DataInfo.clear();
-
+      myMovie.stop();
       Menu menu = new Menu();
       menu.display();
       break;
@@ -638,7 +657,6 @@ void draw()
     println("Sorry you can only enter No from 0 - 5");
   }
   drawrect();
-
 }
 
 
