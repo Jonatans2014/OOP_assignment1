@@ -51,7 +51,7 @@ Location[] Top10Locations =  new Location[] {
 // calling objetc movie
 Movie myMovie;
 // global array list
-int mode = 6;
+int mode = 5;
 PFont text;
 
 PShape  rect;
@@ -65,21 +65,24 @@ PImage bg;
 //declaring variable to load img
 
 PImage[] flags = new PImage[10];
-PImage mapImg, videoImg, mapMarkersimg, bartchartimg;
+
 
 
 String[] flagNames = {
   "usa.png", "chi.png", "jap.jpg", "ger.png", "uk.jpg", "fra.png", "bra.png", "rus.jpg", "ita.png", "ind.png"
 };
 
+
+PImage mapImg, videoImg, barchatAni, barchartImg, mapAni;
 int[] chanRad = {
-  50, 90, 130, 300
-} 
-;
+  50, 90, 130, 230, 300
+};
 int rotA = 0;
 int rotB = 1;
 int rotC = 2;
 int rotD = 3;
+int rotE = 4;
+
 PShape mapShape;
 void setup()
 {
@@ -94,9 +97,11 @@ void setup()
 
 
   mapImg = loadImage("earthpic.jpg"); 
+  barchatAni= loadImage("barchatAni.jpg");
   videoImg = loadImage("bestCountries.jpg");
-  mapMarkersimg = loadImage("marked.jpg");
-  bartchartimg = loadImage("barchartImg.jpg");
+  mapAni = loadImage("mapAni.jpg");
+  barchartImg = loadImage("barchartImg.jpg");
+
 
   //call map metho
   Map();
@@ -111,107 +116,7 @@ void setup()
 }
 
 
-void Menu()
-{
-  background(bg);
-  lights();
-  //noStroke();
-  int changeRot;
-  translate(width/2, height/2);
 
-
-
-
-  pushMatrix();
-
-  rotateY(radians(chanRad[rotA]));
-
-  mapShape = createShape(SPHERE, 30);
-  mapShape.setTexture(mapImg);
-  shape(mapShape, -200, 0);
-  noStroke();
-  rotateX((radians(frameCount/2)));
-
-  sphereDetail(50);
-  popMatrix();
-
-
-
-
-  // sphere 2
-
-  pushMatrix();
-  rotateY(radians(chanRad[rotB]));
-
-  mapShape = createShape(SPHERE, 30);
-  mapShape.setTexture(mapMarkersimg);
-  shape(mapShape, -200, 0);
-  noStroke();
-  rotateX((radians(frameCount/2)));
-
-  sphereDetail(50);
-  popMatrix();
-
-
-  // sphere 3
-
-  pushMatrix();
-  rotateY(radians(chanRad[rotC]));
-
-  mapShape = createShape(SPHERE, 30);
-  mapShape.setTexture(videoImg);
-  shape(mapShape, -200, 0);
-  noStroke();
-  rotateX((radians(frameCount/2)));
-
-  sphereDetail(50);
-  popMatrix();
-
-  // sphere 4
-
-  pushMatrix();
-  rotateY(radians(chanRad[rotD]));
-
-  mapShape = createShape(SPHERE, 30);
-  mapShape.setTexture( bartchartimg);
-  shape(mapShape, -200, 0);
-  noStroke();
-  rotateX((radians(frameCount /2)));
-
-  sphereDetail(50);
-  popMatrix();
-
-  textFont(text);
-
-
-  // add text
-
-    if (chanRad[rotA] == chanRad[1])
-  {
-    textSize(15);
-    fill(255);
-    text("LOAD MAP", -50, 100);
-  }
-
-  if (chanRad[rotB] == chanRad[1])
-  {
-    textSize(15);
-    fill(255);
-    text("LOAD COUNTRY MARKERS", -50, 100);
-  }
-  if (chanRad[rotC] == chanRad[1])
-  {
-    textSize(15);
-    fill(255);
-    text("LOAD BEST COUNTRIES TO LIVE IN", -50, 100);
-  }
-  if (chanRad[rotD] == chanRad[1])
-  {
-    textSize(15);
-    fill(255);
-    text("LOAD BARCHART", -50, 100);
-  }
-}
 
 // implement marker method
 void Map()
@@ -376,18 +281,11 @@ void loadData()
     "Economies.csv"
   };
 
-  for (int i = 0; i < lines.length; i ++)
-  {
-    println("this first string"+lines);
-  }
-  if (mode == 0)
-  {
+ 
+ 
     lines = loadStrings("Economies.csv");
-  }
-  if (mode == 1)
-  {  
-    lines =  loadStrings("Economies2017.csv");
-  }
+  
+ 
 
   // this line of code gonna load the data called gdp
 
@@ -502,11 +400,11 @@ void drawrect()
 
 // method to implement the map 
 
-void WorldMap()
+void CountriesInfo()
 {
 
- 
-  map.draw();
+
+
   ScreenPosition usaPos = usaMarker.getScreenPosition(map);
   ScreenPosition chnPos = chnMarker.getScreenPosition(map);
   ScreenPosition japPos = japMarker.getScreenPosition(map);
@@ -521,15 +419,8 @@ void WorldMap()
   ScreenPosition SouchnPos = SouchnMarker.getScreenPosition(map);
   ScreenPosition canPos  = canMarker.getScreenPosition(map);
 
-  String[]markNames = {
-    "main.png", "chna.png", "jap1.png", 
-    "germ.png", "fran.png", "uk1.png", "bras.png", "rus1.png", "ita1.png", "indi.png"
-  };
-  PImage[] markerIcon = new PImage[10];
-  for (int i = 0; i < markNames.length; i ++)
-  {
-    markerIcon[i] =loadImage(markNames[i]);
-  }
+
+
   fill(#FC0303);
   stroke(255);
   /// draw circles
@@ -563,7 +454,7 @@ void WorldMap()
 
 
     textSize(15);
-    image(flags[0], AoceanPos.x, AoceanPos.y, imageSize, imageSize);
+
     text("1st\n18.1Trillion", AoceanPos.x+xP, AoceanPos.y+xY);
   }
 
@@ -573,7 +464,7 @@ void WorldMap()
   {
 
     textSize(15);
-    image(flags[1], SouchnPos.x, SouchnPos.y, imageSize, imageSize);
+
     text("2nd\n18.1Trillion", SouchnPos.x+xP, SouchnPos.y+xY);
   }
 
@@ -584,7 +475,7 @@ void WorldMap()
 
 
     textSize(15);
-    image(flags[2], SouchnPos.x+xP, SouchnPos.y+xY, imageSize, imageSize);
+
     text("3rd", SouchnPos.x+xP, SouchnPos.y+xY);
   }
 
@@ -595,7 +486,7 @@ void WorldMap()
 
 
     textSize(15);
-    image(flags[3], AoceanPos.x+xP, AoceanPos.y+xY, imageSize, imageSize );
+
     text("4th", AoceanPos.x+xP, AoceanPos.y+xY);
   }
 
@@ -605,7 +496,7 @@ void WorldMap()
 
 
     textSize(15);
-    image(flags[4], AoceanPos.x+xP, AoceanPos.y+xY, imageSize, imageSize) ;
+
     text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
   }
 
@@ -616,7 +507,7 @@ void WorldMap()
 
 
     textSize(15);
-    image(flags[5], AoceanPos.x+xP, AoceanPos.y+xY, imageSize, imageSize) ;
+
     text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
   }
 
@@ -626,7 +517,7 @@ void WorldMap()
 
 
     textSize(15);
-    image(flags[6], AoceanPos.x+xP, AoceanPos.y+xY, imageSize, imageSize) ;
+
     text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
   }
   // select rus
@@ -636,7 +527,7 @@ void WorldMap()
 
 
     textSize(15);
-    image(flags[6], AoceanPos.x+xP, AoceanPos.y+xY, imageSize, imageSize) ;
+
     text("5th", AoceanPos.x+xP, AoceanPos.y+xY);
   }
 
@@ -647,7 +538,7 @@ void WorldMap()
 
 
     textSize(15);
-    image(flags[8], SouchnPos.x+xP, SouchnPos.y+xY, imageSize, imageSize) ;
+
     text("5th", SouchnPos.x+xP, SouchnPos.y+xY);
   }
 
@@ -657,12 +548,13 @@ void WorldMap()
 
 
     textSize(15);
-    image(flags[9], SouchnPos.x+xP, SouchnPos.y+xY, imageSize, imageSize) ;
+
     text("5th", SouchnPos.x+xP, SouchnPos.y+xY);
   }
 
   //draw text
 }
+
 
 
 
@@ -681,56 +573,20 @@ void draw()
 
 
 
-  switch(mode)
+ switch(mode)
   {
   case 0:
     {
-
-
       DataInfo.clear();
-      background(bg);  
-      myMovie.stop(); 
-      loadData();
-
-
-
+      myMovie.stop();
+      CountriesInfo();
+      map.draw();
       break;
     }// case 0
 
   case 1:
     {
 
-      DataInfo.clear();
-      background(bg); 
-      myMovie.stop();
-      loadData();
-      break;
-    }
-
-  case 2:
-    {
-
-      DataInfo.clear();
-      map.zoomToLevel(2);
-      myMovie.stop();
-      WorldMap();
-
-      break;
-    }
-
-  case 3:
-    {
-      
-      DataInfo.clear(); 
-     
-      loadVideo();
-      break;
-    }
-    // end switch
-
-
-  case 4:
-    {
       background(bg); 
       DataInfo.clear();
       myMovie.stop(); 
@@ -738,36 +594,51 @@ void draw()
       break;
     }
 
-
-  case 5:
+  case 2:
     {
 
+      DataInfo.clear(); 
+      loadVideo();
+      break;
+    }
+
+  case 3:
+    { 
+
+      DataInfo.clear();
+      background(bg);  
+      myMovie.stop(); 
+      loadData();
+      break;
+    }
+    // end switch
+
+
+  case 4:
+    {
       DataInfo.clear();
       myMovie.stop();
       loadAni();
 
+
       break;
     }
 
-  case 6:
+
+  case 5:
     {
-
-
       DataInfo.clear();
-   
-      Menu();
+
+      Menu menu = new Menu();
+      menu.display();
       break;
     }
-  case 7 :
-    {
 
-      DataInfo.clear();
-      map.draw();
-
-      break;
-    }
+  default: 
+    println("Sorry you can only enter No from 0 - 5");
   }
   drawrect();
+
 }
 
 
@@ -802,82 +673,100 @@ void keyPressed()
 
   if (key == ENTER && chanRad[rotA] == chanRad[1] )
   {
-    println("works  chanrad" + chanRad[rotA], chanRad[1]);
-    mode = 7;
+
+    mode = 0;
   }
   if (key == ENTER && chanRad[rotB] == chanRad[1])
   {
-    println("works  chanrad" + chanRad[rotA], chanRad[1]);
-    // mapImg, videoImg, mapMarkersimg, bartchartimg;
-    mode = 2;
+
+    mode = 1;
   }
   if (key == ENTER && chanRad[rotC] == chanRad[1])
   {
-    println("works  chanrad" + chanRad[rotA], chanRad[1]);
-    // mapImg, videoImg, mapMarkersimg, bartchartimg;
-    mode =3;
+
+
+    mode =2;
   }
   if (key == ENTER && chanRad[rotD] == chanRad[1])
   {
-    println("works  chanrad" + chanRad[rotA], chanRad[1]);
-    // mapImg, videoImg, mapMarkersimg, bartchartimg;
-    mode = 0;
+
+
+    mode = 3;
   }
 
- 
-    if(key == 'a' || key == 'A')
+  if (key == ENTER && chanRad[rotE] == chanRad[1])
+  {
+
+
+    mode = 4;
+  }
+
+
+  if (key == 'a' || key == 'A')
+  {
+
+
+    rotA ++;
+    rotB ++;
+    rotC ++;
+    rotD ++;
+    rotE ++;
+
+    if (rotA == 5)
     {
-      rotA ++;
-      rotB ++;
-      rotC ++;
-      rotD ++;
-    
-      if (rotA == 4)
-      {
-        rotA = 0;
-      }
-      if (rotB == 4)
-      {
-        rotB = 0;
-      }
-      if (rotC == 4)
-      {
-        rotC = 0;
-      }
-      if (rotD == 4)
-      {
-        rotD = 0;
-      }
+      rotA = 0;
     }
-
-
-
-
-    if (key == 'd' || key =='D')
+    if (rotB == 5)
     {
+      rotB = 0;
+    }
+    if (rotC == 5)
+    {
+      rotC = 0;
+    }
+    if (rotD == 5)
+    {
+      rotD = 0;
+    }
+    if (rotE == 5)
+    {
+      rotE = 0;
+    }
+  }
 
 
-      rotA --;
-      rotB --;
-      rotC --;
-      rotD --;
 
-      if (rotA == -1)
-      {
-        rotA = 3;
-      }
-      if (rotB == -1)
-      {
-        rotB = 3;
-      }
-      if (rotC == -1)
-      {
-        rotC = 3;
-      }
-      if (rotD == -1)
-      {
-        rotD = 3;
-      }
-}
+
+  if (key == 'd' || key =='D')
+  {
+
+
+    rotA --;
+    rotB --;
+    rotC --;
+    rotD --;
+    rotE --;
+
+    if (rotA == -1)
+    {
+      rotA = 4;
+    }
+    if (rotB == -1)
+    {
+      rotB = 4;
+    }
+    if (rotC == -1)
+    {
+      rotC = 4;
+    }
+    if (rotD == -1)
+    {
+      rotD = 4;
+    }
+    if (rotE == -1)
+    {
+      rotE = 4;
+    }
+  }
 }
 
