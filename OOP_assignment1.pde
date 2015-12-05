@@ -60,7 +60,6 @@ ArrayList<Data> DataInfo =  new ArrayList<Data>();
 color rectHighlight;
 
 
-PImage bg;
 
 //declaring variable to load img
 
@@ -87,15 +86,13 @@ PShape mapShape;
 void setup()
 {
 
+  size(1000, 800, P3D);
 
 
-  size(500, 500, P3D);
-  smooth();
-  myMovie = new Movie(this, "World.mp4");
-  // load image
-  bg = loadImage("bg_night.png");
+  map = new UnfoldingMap(this, new Google.GoogleMapProvider());
 
-
+  map.zoomToLevel(3);
+  map.setZoomRange(3, 10);
   mapImg = loadImage("earthpic.jpg"); 
   barchatAni= loadImage("barchatAni.jpg");
   videoImg = loadImage("bestCountries.jpg");
@@ -108,34 +105,39 @@ void setup()
 
 
 
-  text = createFont("Arial-BoldItalicMT-15.vlw", 15);
+  text = createFont("Arial-BoldItalicMT-20.vlw", 20);
 
   textFont(text);
 
   // INITIALIZING MAP OBJCTS
 }
 
-
-
-
 // implement marker method
 void Map()
 {
+
+  float maxmapDistance = 10000; 
   smooth();
 
-  map = new UnfoldingMap(this, new Google.GoogleMapProvider());
-  map.setTweening(true);
-  map.zoomToLevel(2);
+  myMovie = new Movie(this, "World.mp4");
+  // load image
+
+
 
   MapUtils.createDefaultEventDispatcher(this, map);
   // search for the location
   Location usaLocation = new Location(37, -95.71);
   usaMarker = new SimplePointMarker(usaLocation);
 
+
+
   // load geoJSON
   List<Feature> Top10Countries =  GeoJSONReader.loadData(this, "top10Countries.json");
   List<Marker> Top10countryMarkers = MapUtils.createSimpleMarkers(Top10Countries);
+
+
   map.addMarkers(Top10countryMarkers);
+
 
   Location chnLocation = new Location(35.86, 104.19);
   chnMarker= new SimplePointMarker(chnLocation);
@@ -173,10 +175,17 @@ void Map()
   Location AoceanLocation = new Location(53.43, -20.6);
   AoceanMarker = new SimplePointMarker(AoceanLocation);
 
+
+
+
   Location SouchnLocation = new Location(30.39, 124.7);
   SouchnMarker = new SimplePointMarker(SouchnLocation);
 
+  //Pan restriction
 
+    map.setPanningRestriction(ukLocation, maxmapDistance);
+
+  //add markers
   map.addMarkers(usaMarker, chnMarker, japMarker, gerMarker, ukMarker, fraMarker, braMarker, canMarker, itaMarker, indMarker);
 
   //Adapt style fo each markers
@@ -227,7 +236,7 @@ void ZoomAn()
   if (frameCount % 120 == 0) {
 
 
-    map.zoomAndPanTo(Top10Locations[changeLocation], 4);
+    map.zoomAndPanTo(Top10Locations[changeLocation], 5);
     changeLocation++;
     if (changeLocation >= Top10Locations.length) {
       changeLocation = 0;
@@ -235,8 +244,10 @@ void ZoomAn()
   }
 }
 
+
 void loadAni()
 {
+
   String[] lines = {
     "Economies.csv", "Economies2016.csv", "Economies2017.csv"
   };
@@ -249,123 +260,70 @@ void loadAni()
   };
 
 
-  if (frameCount % 140 == 0) {
-    background(bg);
+  if (frameCount % 250 == 0) {
 
+    background(0);
     line = loadStrings(lines[changeLocation]);
     // populate classes
 
-    float rectwidth = width * 0.08f;
-    float recty = width * 0.05f;
-    float border = width * 0.1f;
-
-
-    fill(#0C027C);
-    stroke(255);
-
-    fill(255);
 
 
     for (int i = 0; i < line.length; i ++)
     {
       Data dataobject = new Data(line[i]);
 
-      println("display  and change location" +line[i], "change to "+ changeLocation);
-      //populate array list
-      
-      DataInfo.add(dataobject);
-      text(years[changeLocation], width*0.4f, 140);
 
-      changeLocation ++;      
-      if (changeLocation >= lines.length) {
-        changeLocation = 0;
-      }
+      //populate array list
+      DataInfo.add(dataobject);
+    }
+    println(changeLocation);
+
+    text(DataInfo.get(changeLocation).year, width/2, height*0.3);
+
+    changeLocation ++;
+    if (changeLocation >= lines.length) {
+      changeLocation = 0;
     }
   }
 }
 
-
-
-
 // load data
 void loadData()
 {
+  background(0);
   int changeYear= 0;
   String[] lines = {
     "Economies.csv"
   };
 
-
-
   lines = loadStrings("Economies.csv");
-  textFont(text);
-
-
-  // this line of code gonna load the data called gdp
-
-
-  float rectwidth = width * 0.08f;
-  float recty = width * 0.05f;
-  float border = width * 0.1f;
-
-
-  fill(#0C027C);
-  stroke(255);
-
-  fill(255);
-  text("2015", width*0.4f, 140);
+  
+  
   for (int i = 0; i < lines.length; i ++)
   {
     // populate classes
     Data dataobject = new Data(lines[i]);
+
     //populate array list
     DataInfo.add(dataobject);
-
-    println(lines.length);
   }
+  
+  
+  text("2015", width*0.4f, height*0.3);
 }
 
 
-// load 
-
-// implement years
 
 void drawrect()
 {    
-
-
-
+  textFont(text);
   float barWidth = (width * 0.7f) / (float)DataInfo.size();
   float border = width *0.1f;
   float windowsRange = width - (width* 0.12);
   float heightRange = height - (height * 0.12);
 
-  // assign the a value of the data to a variable called max
-  float max = Float.MIN_VALUE;
+  float max = 19.9;
 
-
-  // compare all the other values from the data and find the max value
-  for (Data Data1 : DataInfo)
-  {
-    if (Data1.economy > max)
-    {
-      max = Data1.economy;
-    }
-  }
-
-
-  // assign the a value of the data to a variable finds the min value
-
-  float min = Float.MAX_VALUE;
-
-  // compare and find the min value 
-  for (Data Data1 : DataInfo)
-  {
-    if (Data1.economy < min)
-    {
-      min = Data1.economy;
-    }
-  }
   for (int i =0; i < DataInfo.size (); i++)
   {
     fill(#0C027C);
@@ -373,43 +331,33 @@ void drawrect()
      then when i is the min value its gonna find a position on the screen for that value 
      which will be border border = 50  and when i is datainfo it will find a position on 
      on the screen which will be windowsRange. WindowsRange is > 400 ps this is X axe*/
-    float x = map(i, 0, DataInfo.size()-1, border, windowsRange);
-    float y = map(DataInfo.get(i).economy, min, max, border, height/2);
 
+    float x = map(i, 0, DataInfo.size()-1, 120, 800);
+    float y = map(DataInfo.get(i).economy, 0, max, border, height/2);
+    float textx = map(i, 0, DataInfo.size()-1, width*0.14, width*0.82);
+    float rectwidth = width * 0.08f;
+    float recty = height - height * 0.07f;
+    float textmap  = map(DataInfo.get(i).economy, 0, max, 550, 280);
 
-
+    // draw rect
     rect( x, heightRange, barWidth, -y);
 
-    float rectwidth = width * 0.08f;
-    float recty = width * 0.05f;
 
-    // draw the rectagle
-
-
-    fill(255);
-    stroke(#4B4B50);
-    float textmap  = map(DataInfo.get(i).economy, min, max, 380, 160);
-    textAlign(LEFT);
+    textAlign(LEFT, LEFT);
 
     // change color of text
-    if (mode == 2)
-    {
-      fill(0);
-      stroke(0);
-    }
+    /*if (mode == 0)
+     {
+     fill(0);
+     stroke(0);
+     }
+     */
 
+    fill(255);
+    text(DataInfo.get(i).country, textx, recty);
+    text(nf(DataInfo.get(i).economy, 1, 1), textx, textmap);
 
-    text(DataInfo.get(i).country, x, windowsRange + recty);
-
-
-    text(nf(DataInfo.get(i).economy, 1, 1), x, textmap);
-
-
-
-
-    textFont(text);
-    ;
-    text("GDP in trillions of U.S. dollars.", width*0.3f, height*0.2f);
+    text("GDP in trillions of U.S. dollars.", width*0.4f, height*0.2f);
   }
 }
 
@@ -418,13 +366,11 @@ void drawrect()
 void CountriesInfo()
 {
 
-
-
   ScreenPosition usaPos = usaMarker.getScreenPosition(map);
   ScreenPosition chnPos = chnMarker.getScreenPosition(map);
   ScreenPosition japPos = japMarker.getScreenPosition(map);
   ScreenPosition gerPos = gerMarker.getScreenPosition(map);
-  ScreenPosition ukPos =  ukMarker.getScreenPosition(map);
+  ScreenPosition ukPos  =  ukMarker.getScreenPosition(map);
   ScreenPosition fraPos = fraMarker.getScreenPosition(map);
   ScreenPosition braPos = braMarker.getScreenPosition(map);
   ScreenPosition rusPos = rusMarker.getScreenPosition(map);
@@ -435,12 +381,9 @@ void CountriesInfo()
   ScreenPosition canPos  = canMarker.getScreenPosition(map);
 
 
-
   fill(#FC0303);
-  stroke(255);
+
   /// draw circles
-
-
   for (int i = 0; i < flags.length; i ++)
   {
 
@@ -462,7 +405,7 @@ void CountriesInfo()
   float imageSize = width *0.1f;
 
 
-  stroke(255);
+
   //code to select and load an image 
   if (mouseX > usaPos.x-iSize && mouseX < usaPos.x+iSize && mouseY > usaPos.y-iSize && mouseY < usaPos.y+iSize )
   {
@@ -470,9 +413,9 @@ void CountriesInfo()
 
 
     textSize(15);
-    
-    stroke(255);
-    text("1st\nUSA",  usaPos.x+xP, usaPos.y+xY);
+
+
+    text("1st\nUSA", usaPos.x+xP, usaPos.y+xY);
   }
 
 
@@ -482,7 +425,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("2nd\nCHN",  chnPos.x+xP,  chnPos.y+xY);
+    text("2nd\nCHN", chnPos.x+xP, chnPos.y+xY);
   }
 
 
@@ -504,7 +447,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("4th\nDEU",  AoceanPos.x,AoceanPos.y);
+    text("4th\nDEU", AoceanPos.x, AoceanPos.y);
   }
 
   // select uk
@@ -514,7 +457,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("5th\nUK", AoceanPos.x,AoceanPos.y);
+    text("5th\nUK", AoceanPos.x, AoceanPos.y);
   }
 
 
@@ -525,7 +468,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("6th\nFRA", AoceanPos.x,AoceanPos.y);
+    text("6th\nFRA", AoceanPos.x, AoceanPos.y);
   }
 
   //select brasil
@@ -535,11 +478,11 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("7th\nBR",braPos.x+xP,braPos.y+xP);
+    text("7th\nBR", braPos.x+xP, braPos.y+xP);
   }
   // select rus
 
-  
+
 
   // select ita
 
@@ -549,7 +492,7 @@ void CountriesInfo()
 
     textSize(15);
 
-    text("8th\n ITA", AoceanPos.x,AoceanPos.y);
+    text("8th\n ITA", AoceanPos.x, AoceanPos.y);
   }
 
   //select india
@@ -579,7 +522,7 @@ void CountriesInfo()
 void loadVideo()
 {
   myMovie.play();
-  image(myMovie, 0, 0, 500, 500);
+  image(myMovie, 0, 0, width, height);
   myMovie.read();
 }
 
@@ -588,25 +531,21 @@ void draw()
 {
 
 
-
-
-
   switch(mode)
   {
   case 0:
     {
       DataInfo.clear();
       myMovie.stop();
-     
+
       map.draw();
-       CountriesInfo();
+      CountriesInfo();
       break;
     }// case 0
 
   case 1:
     {
 
-      background(bg); 
       DataInfo.clear();
       myMovie.stop(); 
       ZoomAn();
@@ -625,9 +564,9 @@ void draw()
     { 
 
       DataInfo.clear();
-      background(bg);  
       myMovie.stop(); 
       loadData();
+      drawrect();
       break;
     }
     // end switch
@@ -638,6 +577,7 @@ void draw()
       DataInfo.clear();
       myMovie.stop();
       loadAni();
+      drawrect();
 
 
       break;
@@ -646,6 +586,7 @@ void draw()
 
   case 5:
     {
+      background(0);
       DataInfo.clear();
       myMovie.stop();
       Menu menu = new Menu();
@@ -656,7 +597,6 @@ void draw()
   default: 
     println("Sorry you can only enter No from 0 - 5");
   }
-  drawrect();
 }
 
 
@@ -665,6 +605,8 @@ void draw()
 void mouseMoved() {
   // Deselect all marker
   for (Marker markerSelect : map.getMarkers ()) {
+
+
     markerSelect.setSelected(false);
   }
 

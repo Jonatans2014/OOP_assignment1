@@ -12,8 +12,8 @@ class Menu
   // using two constructers one with default values and another parametirised 
   Menu()
   {
-    sphereSize= 30;
-    x = -200;
+    sphereSize= 40;
+    x = -300;
     y = 0;
     textx = -90;
     texty = 100;
@@ -32,7 +32,7 @@ class Menu
 
   void display()
   {
-    background(bg);
+
     lights();
     //noStroke();
     int changeRot;
@@ -100,7 +100,7 @@ class Menu
     rotateY(radians(chanRad[rotE]));
     mapShape = createShape(SPHERE, sphereSize);
     mapShape.setTexture(barchatAni);
-    shape(mapShape, -200, 0);
+    shape(mapShape, x, y);
     noStroke();
     rotateX((radians(frameCount/2)));
     sphereDetail(50);
