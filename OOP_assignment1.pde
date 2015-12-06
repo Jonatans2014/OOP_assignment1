@@ -110,11 +110,11 @@ int rotC = 2;
 int rotD = 3;
 int rotE = 4;
 PShape mapShape;
-
+boolean switchB = false;
 
 void setup()
 {
-  size(1000, 1000, P3D);
+  size(1500, 800, P3D);
   smooth();
 
   // Different map providers that users can choose
@@ -300,7 +300,7 @@ void loadAni()
 // load data
 void loadData()
 {
-  background(0);
+
   int changeYear= 0;
   String[] lines = {
     "Economies.csv"
@@ -316,8 +316,6 @@ void loadData()
     //populate array list
     DataInfo.add(dataobject);
   }
-
-  text(DataInfo.get(0).year, width/2, height*0.3);
 }
 
 void drawrect()
@@ -344,7 +342,8 @@ void drawrect()
     float y = map(DataInfo.get(i).economy, 0, max, border, height/2);
     float textx = map(i, 0, DataInfo.size()-1, width*0.14, width*0.82);
     float rectwidth = width * 0.08f;
-    float recty = height - height * 0.07f;
+    float recty = height - height * 0.01f;
+    float rankingy = height - height * 0.07f;
     float textmap  = map(DataInfo.get(i).economy, 0, max, height *0.72f, height*0.30f);
 
     // draw rect
@@ -352,19 +351,21 @@ void drawrect()
     rect( x, heightRange, barWidth, -y);
     textAlign(LEFT, LEFT);
 
-    // change color of text
-    /*if (mode == 0)
-     {
-     fill(0);
-     stroke(0);
-     }
-     */
+    // change color of text if(switchB == true)
 
-    fill(255);
+    if (switchB == true)
+    {
+      fill(#FC0313);
+    } else {
+
+      fill(255);
+      stroke(255);
+    }
+
     // adding text to the screen country names, country economies
+    text(DataInfo.get(i).ranking,textx,rankingy);
     text(DataInfo.get(i).country, textx, recty);
     text(nf(DataInfo.get(i).economy, 1, 1), textx, textmap);
-
     text("GDP in trillions of U.S. dollars.", width*0.40, height*0.2f);
   }
 }
@@ -386,7 +387,7 @@ void CountriesInfo()
   ScreenPosition AoceanPos = AoceanMarker.getScreenPosition(map);
   ScreenPosition SouchnPos = SouchnMarker.getScreenPosition(map);
   ScreenPosition canPos  = canMarker.getScreenPosition(map);
-  
+
   fill(#FC0303);
 
   String Money = "Trillion";
@@ -394,7 +395,7 @@ void CountriesInfo()
   float xY = width * 0.02;
   float iSize = 10;
   float imageSize = width *0.1f;
-  
+
   // draw circles
   for (int i = 0; i < flags.length; i ++)
   {
@@ -413,14 +414,14 @@ void CountriesInfo()
     textSize(15);
     text("2nd\nCHN", chnPos.x+xP, chnPos.y+xY+10);
   }
-  
+
   // select  japan 
   if (mouseX > japPos.x-iSize && mouseX < japPos.x+iSize && mouseY > japPos.y-iSize && mouseY < japPos.y +iSize )
   {
     textSize(15);
     text("3rd\n JAP", japPos.x+10, japPos.y+xY+15);
   }
-  
+
   // select  germany
   if (mouseX > gerPos.x-iSize && mouseX < gerPos.x+iSize && mouseY > gerPos.y-iSize && mouseY < gerPos.y +iSize )
   {
@@ -434,7 +435,7 @@ void CountriesInfo()
     textSize(15);
     text("5th\nUK", ukPos.x-xP, AoceanPos.y-xY);
   }
-  
+
   // select france 
   if (mouseX > fraPos.x-iSize && mouseX < fraPos.x+iSize && mouseY > fraPos.y-iSize && mouseY < fraPos.y +iSize )
   {
@@ -450,9 +451,6 @@ void CountriesInfo()
     textSize(15);
     text("7th\nBR", braPos.x+xP, braPos.y);
   }
-  // select rus
-
-
 
   // select ita
 
@@ -466,7 +464,6 @@ void CountriesInfo()
   //select india
   if (mouseX > indPos.x-iSize && mouseX < indPos.x+iSize && mouseY > indPos.y-iSize && mouseY < indPos.y +iSize )
   {
-
     textSize(15);
     text("9th\nIND", indPos.x-xP, indPos.y+xY);
   }
@@ -475,8 +472,6 @@ void CountriesInfo()
     textSize(15);
     text("10th\nCAN", canPos.x-xP-10, canPos.y+xY+xY);
   }
-
-
 
   //method to top 10 best countries to live in video
 }
@@ -499,6 +494,13 @@ void draw()
       map.draw();
       DataInfo.clear();
       myMovie.stop();
+      if (switchB == true)
+      {
+        loadData();
+        drawrect();
+        text(DataInfo.get(0).year, width/2, height*0.3);
+      }
+
       CountriesInfo();
       break;
     }// case 0
@@ -521,10 +523,13 @@ void draw()
 
   case 3:
     { 
-
+      background(0);
       DataInfo.clear();
       myMovie.stop(); 
       loadData();
+
+
+      text(DataInfo.get(0).year, width/2, height*0.3);
       drawrect();
       break;
     }
@@ -570,6 +575,11 @@ void mouseMoved() {
 // method to implement key interactions
 void keyPressed()
 {
+
+  if (key =='n' || key =='N')
+  {
+    switchB = !switchB;
+  }
   // if statements to change map providers
   if (key =='z' || key == 'Z')
   {
