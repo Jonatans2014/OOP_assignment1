@@ -9,7 +9,7 @@ class Menu
   float titley;
 
 
-  // using two constructers one with default values and another parametirised 
+  // using two constructors one with default values and another parametirised 
   Menu()
   {
     sphereSize= 40;
@@ -37,19 +37,14 @@ class Menu
     //noStroke();
     int changeRot;
 
-
    //arial-BoldItalicMT-15.vlw
     textFont(text);
-
-    //add text title
     
     translate(width/2, height/2);
-
-
+    
     //sphere 1
     pushMatrix();
     rotateY(radians(chanRad[rotA]));
-
     mapShape = createShape(SPHERE, sphereSize);
     mapShape.setTexture(mapImg);
     shape(mapShape, x, y);
@@ -114,13 +109,13 @@ class Menu
     if (chanRad[rotA] == chanRad[1])
     {
 
-      text(" LE IN THE WORLD MAP VISUALIZATION", textx, texty);
+      text("WORLD MAP VISUALIZATION", textx, texty);
     }
 
     if (chanRad[rotB] == chanRad[1])
     {
 
-      text("LE IN THE WORLD ANIMATON", textx, texty);
+      text("  WORLD ANIMATON", textx, texty);
     }
     if (chanRad[rotC] == chanRad[1])
     {
@@ -138,7 +133,7 @@ class Menu
     {
 
 
-      text("BARCHART ANIMATION", stextx, 100);
+      text("BARCHART ANIMATION", stextx-20, 100);
     }
   }
 }
