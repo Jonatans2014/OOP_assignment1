@@ -10,7 +10,7 @@ Menu, maps,videos,image and 3D models will be added to the assignment;
  This program will enable users to visualize the top 10 largest economies in the world and top 10 best countries to live in 
  program features:
  1 Menu.
-![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638739/6d99e686-9d20-11e5-99bf-9971af42dd69.PNG)
+![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638749/6dc52dfa-9d20-11e5-905d-1f06e4c1614b.PNG)
 
  1 Barchart with top 10 2015 largest economies in the world data set.
  ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638743/6da42f42-9d20-11e5-9cd8-e1d3a55c669f.PNG)
