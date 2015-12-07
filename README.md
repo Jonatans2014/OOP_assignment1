@@ -10,7 +10,7 @@ Menu, maps,videos,image and 3D models will be added to the assignment;
  This program will enable uses to visualize the top 10 largest economies in the world and top 10 best countries to live in 
  program features:
  1 Menu
- ![Menu](screenshots/menu.png "Menu")
+![alt tag](https://raw.github.com/Jonatans2014/OOP_assignment1/master/screenshots/to/menu.png))
  1 Barchart with top 10 2015 largest economies in the world data set
  1 Barchart time lapse showing economies from 2015 to 2017
  1 Map of the world which, will enable user to visualizes the countries from  different maps which are googleMap, oceanMap, sateliteMap,
