@@ -7,8 +7,7 @@ class Menu
   float textx, texty, stextx;
   float titlex;
   float titley;
-
-
+  
   // using two constructors one with default values and another parametirised 
   Menu()
   {
@@ -22,6 +21,7 @@ class Menu
     titlex = width  * 0.2;
     titley  = height * 0.1;
   }
+  
   Menu(int sphereSize, int x, int y)
   {
     this.sphereSize = sphereSize;

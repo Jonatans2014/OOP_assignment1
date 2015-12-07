@@ -1,6 +1,4 @@
 
-
-
 /*
     This program will enable uses to visualize the top 10 largest economies in the world and top 10 best countries to live in 
  program features:
@@ -11,17 +9,17 @@
  1 Map animation which, will be switching from top 10 LE countries
  1 video that will enable users to visualise top 10 best countries to live ine
  
-  Jonatans A de Souza 07/12/2015
-
- */
+ Jonatans A de Souza 07/12/2015
  
+ */
+
 /* 
  Important notes:
  To run this program you will need to donwload a library from processing called 
  "unfoldingMap". unfoldingMap just gonna work with processing 2.0 and Map will only load with internet
  Check instructions in the Readme file
  */
- 
+
 // importing video library
 import processing.video.*;
 
@@ -76,9 +74,9 @@ Location[] Top10Locations =  new Location[] {
   new Location(36.20, 138.2), new Location(51.16, 10.45), new Location(52.3, -1.17), new Location(52.3, -1.17), 
   new Location(46.2, 2.21), new Location(-14.2, -51.9), new Location(41.8, 12.5)
   };
-
-  int changeLocation = 0;
   
+int changeLocation = 0;
+
 // calling class object movie
 Movie myMovie;
 
@@ -89,6 +87,7 @@ PShape  rect;
 // global array list
 ArrayList<Data> DataInfo =  new ArrayList<Data>();
 
+PImage bg;
 //declaring variable to load img
 PImage[] flags = new PImage[10];
 String[] flagNames = {
@@ -111,9 +110,9 @@ boolean switchB = false;
 
 void setup()
 {
-  size(1500, 800, P3D);
+  size(1800, 900, P3D);
   smooth();
-
+  
   // Different map providers that users can choose
   googleMap =  new Google.GoogleMapProvider(); 
   oceanMap =   new EsriProvider.OceanBasemap(); 
@@ -122,9 +121,12 @@ void setup()
   TopologicalGeoMapProvider  =  new GeoMapApp.TopologicalGeoMapProvider(); 
   map = new UnfoldingMap(this, googleMap);
   MapUtils.createDefaultEventDispatcher(this, map);
+  //zoom restriction
   map.zoomToLevel(3);
   map.setZoomRange(3, 20);
-  
+
+
+  bg = loadImage("bg2.png");
   //loading image which will be used on the spheres
   mapImg = loadImage("earthpic.jpg"); 
   barchatAni= loadImage("barchatAni.jpg");
@@ -134,7 +136,7 @@ void setup()
 
   //call map method
   Map();
-  
+
   // creating and adding a textfont "Arial-BoldItalicMT-20.vlw
   text = createFont("Arial-BoldItalicMT-20.vlw", 20);
   textFont(text);
@@ -144,21 +146,21 @@ void setup()
 void Map()
 {
   float maxmapDistance = 10000;
-  
+
   // calling movie object
   myMovie = new Movie(this, "World.mp4");
-  
+
   // search for the location
   Location usaLocation = new Location(37, -95.71);
   usaMarker = new SimplePointMarker(usaLocation);
-  
+
   // load geoJSON
   List<Feature> Top10Countries =  GeoJSONReader.loadData(this, "top10Countries.json");
   List<Marker> Top10countryMarkers = MapUtils.createSimpleMarkers(Top10Countries);
 
   // adding map markers 
   map.addMarkers(Top10countryMarkers);
-  
+
   // geting locations of top 10 countries
   Location chnLocation = new Location(35.86, 104.19);
   chnMarker= new SimplePointMarker(chnLocation);
@@ -208,7 +210,7 @@ void Map()
 
   chnMarker.setColor(color(#FF0026));
   chnMarker.setStrokeColor(color(255, 255, 255));
-  
+
   japMarker.setColor(color(255, 255, 255));
   japMarker.setStrokeColor(color(#FF0026));
 
@@ -250,7 +252,7 @@ void ZoomAn()
 
 void loadAni()
 {
-
+  
   String[] lines = {
     "Economies.csv", "Economies2016.csv", "Economies2017.csv"
   };
@@ -264,7 +266,7 @@ void loadAni()
 
   if (frameCount % 250 == 0) {
 
-    background(0);
+    background(bg);
     line = loadStrings(lines[changeLocation]);
 
     // populate classes
@@ -290,7 +292,7 @@ void loadAni()
 // load data
 void loadData()
 {
-
+  
   int changeYear= 0;
   String[] lines = {
     "Economies.csv"
@@ -308,58 +310,37 @@ void loadData()
   }
 }
 
-void drawrect()
-{ 
 
-  textFont(text);
-  float barWidth = (width * 0.7f) / (float)DataInfo.size();
-  float border = width *0.1f;
-  float windowsRange = width - (width* 0.12);
-  float heightRange = height - (height * 0.12);
+// get the max value from economies2017 dataset
+float maxV()
+{
 
-  float max = 19.9;
+  String[] lines = {
+    "Economies2017.csv"
+  };
 
-  for (int i =0; i < DataInfo.size (); i++)
+  lines = loadStrings("Economies2017.csv");
+
+  for (int i = 0; i < lines.length; i ++)
   {
-    fill(#0C027C);
-    /*//"i" is the value "0" is the lowest value, "dataInfo" max value then 
-     then when i is the min value its gonna find a position on the screen for that value 
-     which will be border border = 50  and when i is datainfo it will find a position on 
-     on the screen which will be windowsRange. WindowsRange is > 400 ps this is X axe*/
+    // populate classes
+    Data dataobject = new Data(lines[i]);
 
-    float x = map(i, 0, DataInfo.size()-1, width*0.12f, width *0.8f);
-    println(mouseX, mouseY);
-    float y = map(DataInfo.get(i).economy, 0, max, border, height/2);
-    float textx = map(i, 0, DataInfo.size()-1, width*0.14, width*0.82);
-    float rectwidth = width * 0.08f;
-    float recty = height - height * 0.01f;
-    float rankingy = height - height * 0.07f;
-    float textmap  = map(DataInfo.get(i).economy, 0, max, height *0.65f, height*0.30f);
-
-    // draw rect
-    stroke(255);
-    rect( x, heightRange, barWidth, -y);
-    textAlign(LEFT, LEFT);
-
-    // change color of text if(switchB == true)
-
-    if (switchB == true)
-    {
-      fill(#FC0313);
-    } else {
-
-      fill(255);
-      stroke(255);
-    }
-
-    // adding text to the screen country names, country economies
-    text(DataInfo.get(i).ranking,textx,rankingy);
-    text(DataInfo.get(i).country, textx, recty);
-    text(nf(DataInfo.get(i).economy, 1, 1), textx, textmap);
-    text("GDP in trillions of U.S. dollars.", width*0.40, height*0.2f);
+    //populate array list
+    DataInfo.add(dataobject);
   }
+
+  float m = Float.MIN_VALUE;
+  for (Data data : DataInfo)
+  {
+    if (data.economy > m)
+    {
+      m =  data.economy;
+    }
+  }
+  
+  return m;
 }
-// method to implement the map 
 
 void CountriesInfo()
 {
@@ -379,7 +360,7 @@ void CountriesInfo()
   ScreenPosition canPos  = canMarker.getScreenPosition(map);
 
   fill(#FC0303);
-  
+
   String Money = "Trillion";
   float xP  = width * 0.12;
   float xY = width * 0.02;
@@ -416,7 +397,7 @@ void CountriesInfo()
   if (mouseX > gerPos.x-iSize && mouseX < gerPos.x+iSize && mouseY > gerPos.y-iSize && mouseY < gerPos.y +iSize )
   {
     textSize(15);
-    text("4th\nDEU", gerPos.x-xP-xP, gerPos.y-xY);
+    text("4th\nDEU", gerPos.x-xP, gerPos.y-xY);
   }
 
   // select uk
@@ -439,7 +420,7 @@ void CountriesInfo()
   {
 
     textSize(15);
-    text("7th\nBR", braPos.x+xP, braPos.y);
+    text("8th\nBR", braPos.x+xP, braPos.y);
   }
 
   // select ita
@@ -448,14 +429,14 @@ void CountriesInfo()
   {
 
     textSize(15);
-    text("8th\n ITA", itaPos.x-xP, itaPos.y-xY-10);
+    text("9th\n ITA", itaPos.x-xP, itaPos.y-xY-10);
   }
 
   //select india
   if (mouseX > indPos.x-iSize && mouseX < indPos.x+iSize && mouseY > indPos.y-iSize && mouseY < indPos.y +iSize )
   {
     textSize(15);
-    text("9th\nIND", indPos.x-xP, indPos.y+xY);
+    text("7th\nIND", indPos.x+20, indPos.y+xY);
   }
   if (mouseX > canPos.x-iSize && mouseX < canPos.x+iSize && mouseY > canPos.y-iSize && mouseY < canPos.y +iSize )
   {
@@ -463,9 +444,10 @@ void CountriesInfo()
     text("10th\nCAN", canPos.x-xP-10, canPos.y+xY+xY);
   }
 
-  //method to top 10 best countries to live in video
+
 }
 
+  //implement top 10 best countries to live in video
 void loadVideo()
 {
   myMovie.play();
@@ -473,10 +455,13 @@ void loadVideo()
   image(myMovie, 0, 0, width, height);
 }
 
-
 void draw()
 {
-
+  
+  
+  textFont(text);
+  float max;
+  max =  maxV();
   switch(mode)
   {
   case 0:
@@ -487,7 +472,9 @@ void draw()
       if (switchB == true)
       {
         loadData();
-        drawrect();
+        Drawrect drawrect1 =  new Drawrect(max);
+        // creating a Drawrect object
+        drawrect1.display();
         text(DataInfo.get(0).year, width/2, height*0.3);
       }
 
@@ -505,7 +492,7 @@ void draw()
 
   case 2:
     {
-      background(0);
+      background(bg);
       DataInfo.clear(); 
       loadVideo();
       break;
@@ -513,13 +500,19 @@ void draw()
 
   case 3:
     { 
-      background(0);
+      background(bg);
       DataInfo.clear();
       myMovie.stop(); 
       loadData();
+
+      // creating a drawrect object
+      Drawrect drawrect2 =  new Drawrect(max);
       
+      // adding year 2015
       text(DataInfo.get(0).year, width/2, height*0.3);
-      drawrect();
+      
+      // calling drawrect display method
+      drawrect2.display();
       break;
     }
     // end switch
@@ -528,15 +521,21 @@ void draw()
     {
       DataInfo.clear();
       myMovie.stop();
+      // calling loadAni method
       loadAni();
-      drawrect();
+      
+      // creating a Drawrect object
+      Drawrect drawrect3 =  new Drawrect(max);
+      
+      // calling drawrect display method
+      drawrect3.display();
 
       break;
     }
 
   case 5:
     {
-      background(0);
+      background(bg);
       DataInfo.clear();
       myMovie.stop();
       Menu menu = new Menu();
@@ -563,7 +562,7 @@ void mouseMoved() {
 // method to implement key interactions
 void keyPressed()
 {
-
+  // bollean to change text collor
   if (key =='n' || key =='N')
   {
     switchB = !switchB;
@@ -573,6 +572,7 @@ void keyPressed()
   {
     map.mapDisplay.setProvider(googleMap);
   }
+  
   if (key =='x' ||key == 'X')
   {
 
