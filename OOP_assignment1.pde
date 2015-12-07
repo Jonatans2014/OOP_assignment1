@@ -74,8 +74,8 @@ Location[] Top10Locations =  new Location[] {
   new Location(36.20, 138.2), new Location(51.16, 10.45), new Location(52.3, -1.17), new Location(52.3, -1.17), 
   new Location(46.2, 2.21), new Location(-14.2, -51.9), new Location(41.8, 12.5)
   };
-  
-int changeLocation = 0;
+
+  int changeLocation = 0;
 
 // calling class object movie
 Movie myMovie;
@@ -112,7 +112,7 @@ void setup()
 {
   size(1800, 900, P3D);
   smooth();
-  
+
   // Different map providers that users can choose
   googleMap =  new Google.GoogleMapProvider(); 
   oceanMap =   new EsriProvider.OceanBasemap(); 
@@ -252,7 +252,7 @@ void ZoomAn()
 
 void loadAni()
 {
-  
+
   String[] lines = {
     "Economies.csv", "Economies2016.csv", "Economies2017.csv"
   };
@@ -292,7 +292,7 @@ void loadAni()
 // load data
 void loadData()
 {
-  
+
   int changeYear= 0;
   String[] lines = {
     "Economies.csv"
@@ -338,7 +338,7 @@ float maxV()
       m =  data.economy;
     }
   }
-  
+
   return m;
 }
 
@@ -443,11 +443,9 @@ void CountriesInfo()
     textSize(15);
     text("10th\nCAN", canPos.x-xP-10, canPos.y+xY+xY);
   }
-
-
 }
 
-  //implement top 10 best countries to live in video
+//implement top 10 best countries to live in video
 void loadVideo()
 {
   myMovie.play();
@@ -457,8 +455,8 @@ void loadVideo()
 
 void draw()
 {
-  
-  
+
+
   textFont(text);
   float max;
   max =  maxV();
@@ -507,12 +505,15 @@ void draw()
 
       // creating a drawrect object
       Drawrect drawrect2 =  new Drawrect(max);
-      
-      // adding year 2015
-      text(DataInfo.get(0).year, width/2, height*0.3);
-      
+
+
+
+
       // calling drawrect display method
       drawrect2.display();
+
+      // adding year 2015
+      text(DataInfo.get(0).year, width/2, height*0.3);
       break;
     }
     // end switch
@@ -523,10 +524,10 @@ void draw()
       myMovie.stop();
       // calling loadAni method
       loadAni();
-      
+
       // creating a Drawrect object
       Drawrect drawrect3 =  new Drawrect(max);
-      
+
       // calling drawrect display method
       drawrect3.display();
 
@@ -538,6 +539,8 @@ void draw()
       background(bg);
       DataInfo.clear();
       myMovie.stop();
+      
+      //open menu
       Menu menu = new Menu();
       menu.display();
       break;
@@ -572,7 +575,7 @@ void keyPressed()
   {
     map.mapDisplay.setProvider(googleMap);
   }
-  
+
   if (key =='x' ||key == 'X')
   {
 

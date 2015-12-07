@@ -103,7 +103,7 @@ class Menu
 
 
 
-    // add text
+    // add text to menu
     fill(255);
     textSize(15);
     if (chanRad[rotA] == chanRad[1])
