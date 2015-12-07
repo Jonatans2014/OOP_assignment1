@@ -1,7 +1,6 @@
 
 
 
-
 /*
     This program will enable uses to visualize the top 10 largest economies in the world and top 10 best countries to live in 
  program features:
@@ -10,20 +9,20 @@
  1 Map of the world which, will enable user to visualizes the countries from  different maps which are googleMap, oceanMap, sateliteMap,
  NatGeoWorldMap,TopologicalGeoMapProvider.
  1 Map animation which, will be switching from top 10 LE countries
- 1 video that will enable users to visualise top 10 best countries to live ine */
+ 1 video that will enable users to visualise top 10 best countries to live ine
+ 
+  Jonatans A de Souza 07/12/2015
 
-
+ */
+ 
 /* 
  Important notes:
  To run this program you will need to donwload a library from processing called 
- "unfoldingMap". unfoldingMap just gonna work with processing 2.0
- Check instructions in the Readme
+ "unfoldingMap". unfoldingMap just gonna work with processing 2.0 and Map will only load with internet
+ Check instructions in the Readme file
  */
-
-
-
+ 
 // importing video library
-
 import processing.video.*;
 
 //importing unfolding map library
@@ -46,7 +45,6 @@ import de.fhpotsdam.unfolding.*;
 import de.fhpotsdam.unfolding.providers.Microsoft;
 import java.util.List;
 
-
 // creating a unfoldingmap object
 UnfoldingMap map;
 
@@ -56,7 +54,6 @@ AbstractMapProvider oceanMap;
 AbstractMapProvider sateliteMap;
 AbstractMapProvider NatGeoWorldMap;
 AbstractMapProvider TopologicalGeoMapProvider;
-
 
 //  Simplepoint marker class objects  for each country
 SimplePointMarker usaMarker;
@@ -81,7 +78,7 @@ Location[] Top10Locations =  new Location[] {
   };
 
   int changeLocation = 0;
-
+  
 // calling class object movie
 Movie myMovie;
 
@@ -127,7 +124,7 @@ void setup()
   MapUtils.createDefaultEventDispatcher(this, map);
   map.zoomToLevel(3);
   map.setZoomRange(3, 20);
-
+  
   //loading image which will be used on the spheres
   mapImg = loadImage("earthpic.jpg"); 
   barchatAni= loadImage("barchatAni.jpg");
@@ -137,7 +134,7 @@ void setup()
 
   //call map method
   Map();
-
+  
   // creating and adding a textfont "Arial-BoldItalicMT-20.vlw
   text = createFont("Arial-BoldItalicMT-20.vlw", 20);
   textFont(text);
@@ -146,26 +143,22 @@ void setup()
 // implement marker method
 void Map()
 {
-  float maxmapDistance = 10000; 
-
+  float maxmapDistance = 10000;
+  
   // calling movie object
   myMovie = new Movie(this, "World.mp4");
-
-
+  
   // search for the location
   Location usaLocation = new Location(37, -95.71);
   usaMarker = new SimplePointMarker(usaLocation);
-
-
-
+  
   // load geoJSON
   List<Feature> Top10Countries =  GeoJSONReader.loadData(this, "top10Countries.json");
   List<Marker> Top10countryMarkers = MapUtils.createSimpleMarkers(Top10Countries);
 
   // adding map markers 
   map.addMarkers(Top10countryMarkers);
-
-
+  
   // geting locations of top 10 countries
   Location chnLocation = new Location(35.86, 104.19);
   chnMarker= new SimplePointMarker(chnLocation);
@@ -215,8 +208,7 @@ void Map()
 
   chnMarker.setColor(color(#FF0026));
   chnMarker.setStrokeColor(color(255, 255, 255));
-
-
+  
   japMarker.setColor(color(255, 255, 255));
   japMarker.setStrokeColor(color(#FF0026));
 
@@ -256,7 +248,6 @@ void ZoomAn()
   }
 }
 
-
 void loadAni()
 {
 
@@ -270,7 +261,6 @@ void loadAni()
   String[] years  = {
     "2015", "2016", "2017"
   };
-
 
   if (frameCount % 250 == 0) {
 
@@ -344,7 +334,7 @@ void drawrect()
     float rectwidth = width * 0.08f;
     float recty = height - height * 0.01f;
     float rankingy = height - height * 0.07f;
-    float textmap  = map(DataInfo.get(i).economy, 0, max, height *0.72f, height*0.30f);
+    float textmap  = map(DataInfo.get(i).economy, 0, max, height *0.65f, height*0.30f);
 
     // draw rect
     stroke(255);
@@ -389,7 +379,7 @@ void CountriesInfo()
   ScreenPosition canPos  = canMarker.getScreenPosition(map);
 
   fill(#FC0303);
-
+  
   String Money = "Trillion";
   float xP  = width * 0.12;
   float xY = width * 0.02;
@@ -527,8 +517,7 @@ void draw()
       DataInfo.clear();
       myMovie.stop(); 
       loadData();
-
-
+      
       text(DataInfo.get(0).year, width/2, height*0.3);
       drawrect();
       break;
@@ -570,7 +559,6 @@ void mouseMoved() {
     markerSelect.setSelected(true);
   }
 }
-
 
 // method to implement key interactions
 void keyPressed()
