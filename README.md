@@ -56,9 +56,9 @@ NatGeoWorldMap,TopologicalGeoMapProvider.
  
  'A' move menu spheres from right to left 
 
- 'A' move menu spheres from right to left
+ 'D' move menu spheres from left to right
 
- 'enter' top open diffrent section of program
+ 'enter' open diffrent section of program
 
  'Z' change to googleMap provider
 
