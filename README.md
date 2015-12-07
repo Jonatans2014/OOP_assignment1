@@ -16,31 +16,31 @@ Menu, maps,videos,image and 3D models will be added to the assignment;
  ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638743/6da42f42-9d20-11e5-9cd8-e1d3a55c669f.PNG)
 
  1 Barchart time lapse showing economies from 2015 to 2017.
- https://cloud.githubusercontent.com/assets/15609932/11638744/6da4f706-9d20-11e5-8dda-caa0d26768ac.PNG
+ ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638744/6da4f706-9d20-11e5-8dda-caa0d26768ac.PNG)
 
  1 Map of the world which, will enable user to visualizes the countries from  different maps which are googleMap, oceanMap, sateliteMap,.
 NatGeoWorldMap,TopologicalGeoMapProvider.
-https://cloud.githubusercontent.com/assets/15609932/11638742/6d9ff60c-9d20-11e5-9795-e4d86d3a6578.PNG
+ ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638742/6d9ff60c-9d20-11e5-9795-e4d86d3a6578.PNG)
 
-https://cloud.githubusercontent.com/assets/15609932/11638741/6d9ecef8-9d20-11e5-9e69-04d02c4e532d.PNG
+ ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638741/6d9ecef8-9d20-11e5-9e69-04d02c4e532d.PNG)
 
-https://cloud.githubusercontent.com/assets/15609932/11638745/6dae84ba-9d20-11e5-8c0a-a6296b406690.PNG
+ ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638745/6dae84ba-9d20-11e5-8c0a-a6296b406690.PNG)
 
-https://cloud.githubusercontent.com/assets/15609932/11638746/6db324ca-9d20-11e5-92fb-609a586ff8a9.PNG
+ ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638746/6db324ca-9d20-11e5-92fb-609a586ff8a9.PNG)
 
-https://cloud.githubusercontent.com/assets/15609932/11638747/6db6ba5e-9d20-11e5-94a4-f03a058e0530.PNG
+ ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638747/6db6ba5e-9d20-11e5-94a4-f03a058e0530.PNG)
 
  1 Map animation which, will be switching from top 10 LE countries
- https://cloud.githubusercontent.com/assets/15609932/11638748/6db92cee-9d20-11e5-9a56-7aaccff5643a.PNG
+  ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638748/6db92cee-9d20-11e5-9a56-7aaccff5643a.PNG)
 
  Selected markers
- https://cloud.githubusercontent.com/assets/15609932/11638740/6d9ca466-9d20-11e5-883c-490046f120f8.PNG
+ ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638740/6d9ca466-9d20-11e5-883c-490046f120f8.PNG)
 
  deselected markers
- https://cloud.githubusercontent.com/assets/15609932/11638742/6d9ff60c-9d20-11e5-9795-e4d86d3a6578.PNG
+  ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638742/6d9ff60c-9d20-11e5-9795-e4d86d3a6578.PNG)
 
  1 video that will enable users to visualise top 10 best countries to live in
- https://cloud.githubusercontent.com/assets/15609932/11638739/6d99e686-9d20-11e5-99bf-9971af42dd69.PNG
+ ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638739/6d99e686-9d20-11e5-99bf-9971af42dd69.PNG)
 
  
 
