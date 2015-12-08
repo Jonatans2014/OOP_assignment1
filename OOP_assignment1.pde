@@ -76,6 +76,7 @@ Location[] Top10Locations =  new Location[] {
   };
 
   int changeLocation = 0;
+  int changeAni = 0;
 
 // calling class object movie
 Movie myMovie;
@@ -260,14 +261,11 @@ void loadAni()
   String[] line= { 
     "Economies.csv"
   };
-  String[] years  = {
-    "2015", "2016", "2017"
-  };
 
   if (frameCount % 250 == 0) {
 
     background(bg);
-    line = loadStrings(lines[changeLocation]);
+    line = loadStrings(lines[changeAni]);
 
     // populate classes
     for (int i = 0; i < line.length; i ++)
@@ -278,13 +276,11 @@ void loadAni()
       DataInfo.add(dataobject);
     }
 
-    println(changeLocation);
+    text(DataInfo.get(changeAni).year, width/2, height*0.3);
 
-    text(DataInfo.get(changeLocation).year, width/2, height*0.3);
-
-    changeLocation ++;
-    if (changeLocation >= lines.length) {
-      changeLocation = 0;
+    changeAni ++;
+    if (changeAni>= lines.length) {
+      changeAni = 0;
     }
   }
 }
