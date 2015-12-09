@@ -25,6 +25,9 @@ NatGeoWorldMap,TopologicalGeoMapProvider.
 
  ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638742/6d9ff60c-9d20-11e5-9795-e4d86d3a6578.PNG)
 
+ Map with barchart 
+![alt tag](https://cloud.githubusercontent.com/assets/15609932/11673473/09deeeb0-9e11-11e5-9836-cbee3ee42e3c.PNG)
+
  #AerialMap
  ![alt tag](https://cloud.githubusercontent.com/assets/15609932/11638741/6d9ecef8-9d20-11e5-9e69-04d02c4e532d.PNG)
 
