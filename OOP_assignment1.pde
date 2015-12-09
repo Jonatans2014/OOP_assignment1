@@ -111,7 +111,7 @@ boolean switchB = false;
 
 void setup()
 {
-  size(1800, 900, P3D);
+  size(1800, 900, OPENGL);
   smooth();
 
   // Different map providers that users can choose

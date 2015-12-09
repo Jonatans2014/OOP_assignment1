@@ -76,7 +76,7 @@ NatGeoWorldMap,TopologicalGeoMapProvider.
 
  'B' TopologicalGeoMapProvider
 
- 'N' change text collor to red
+ 'N' change text collor to red plus open barchart with the map
 
  '0' open map visualisation
 
